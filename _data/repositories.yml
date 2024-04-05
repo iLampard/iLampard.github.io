@@ -1,12 +1,13 @@
 github_users:
-  - torvalds
-  - alshedivat
+  - iLampard
 
 github_repos:
-  - alshedivat/al-folio
-  - twbs/bootstrap
-  - jekyll/jekyll
-  - jquery/jquery
-  - FortAwesome/Font-Awesome
-  - jpswalsh/academicons
-  - mathjax/MathJax
+  - ant-research/EasyTemporalPointProcess
+  - ant-research/fin_domain_llm
+  - iLampard/lamp
+  - iLampard/hypro_tpp
+  - iLampard/dual_stage_attention_rnn
+  - iLampard/WindAdapter
+  - iLampard/time_dependent_rnn
+  - iLampard/deep_bsde
+  - iLampard/Fin_Math_Note
