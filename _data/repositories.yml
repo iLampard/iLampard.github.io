@@ -2,6 +2,7 @@ github_users:
   - iLampard
 
 github_repos:
+  - eosphoros-ai/DB-GPT
   - eosphoros-ai/DB-GPT-Hub
   - ant-research/EasyTemporalPointProcess
   - ant-research/fin_domain_llm
