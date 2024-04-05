@@ -2,10 +2,11 @@ github_users:
   - iLampard
 
 github_repos:
+  - eosphoros-ai/DB-GPT-Hub
   - ant-research/EasyTemporalPointProcess
   - ant-research/fin_domain_llm
+  - ant-research/hypro_tpp
   - iLampard/lamp
-  - iLampard/hypro_tpp
   - iLampard/dual_stage_attention_rnn
   - iLampard/WindAdapter
   - iLampard/time_dependent_rnn
