@@ -2,7 +2,7 @@
 layout: page
 permalink: /repositories/
 title: repositories
-description: I actively contribute to the following open source repositories.
+description: I actively contribute to the following open source repositories
 nav: true
 nav_order: 4
 ---
