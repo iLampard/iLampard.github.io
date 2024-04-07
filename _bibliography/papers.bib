@@ -3,6 +3,22 @@
 
 @string{aps = {American Physical Society,}}
 
+
+@inproceedings{wang2023enhancing,
+  abbr = {AAAI}, 
+  bibtex_show={true},
+  title={Enhancing Recommender Systems with Large Language Model Reasoning Graphs},
+  author={Wang, Yan and Chu, Zhixuan and Ouyang, Xin and Wang, Simeng and Hao, Hongyan and Shen, Yue and Gu, Jinjie and Xue, Siqiao and Zhang, James Y and Cui, Qing and others},
+  booktitle = {AAAI},
+  year={2024}, 
+  arxiv = {2308.10835}, 
+  abstract={
+    Recommendation systems aim to provide users with relevant suggestions, but often lack interpretability and fail to capture higher-level semantic relationships between user behaviors and profiles. In this paper, we propose a novel approach that leverages large language models (LLMs) to construct personalized reasoning graphs. These graphs link a user's profile and behavioral sequences through causal and logical inferences, representing the user's interests in an interpretable way. Our approach, LLM reasoning graphs (LLMRG), has four components: chained graph reasoning, divergent extension, self-verification and scoring, and knowledge base self-improvement. The resulting reasoning graph is encoded using graph neural networks, which serves as additional input to improve conventional recommender systems, without requiring extra user or item information. Our approach demonstrates how LLMs can enable more logical and interpretable recommender systems through personalized reasoning graphs. LLMRG allows recommendations to benefit from both engineered recommendation systems and LLM-derived reasoning graphs. We demonstrate the effectiveness of LLMRG on benchmarks and real-world scenarios in enhancing base recommendation models.
+  }
+}
+
+
+
 @inproceedings{xue2024easytpp,
   abbr = {ICLR},
   bibtex_show = {true},
@@ -15,6 +31,15 @@
   abstract = {
     Continuous-time event sequences play a vital role in real-world domains such as healthcare, finance, online shopping, social networks, and so on. To model such data, temporal point processes (TPPs) have emerged as the most natural and competitive models, making a significant impact in both academic and application communities. Despite the emergence of many powerful models in recent years, there hasn't been a central benchmark for these models and future research endeavors. This lack of standardization impedes researchers and practitioners from comparing methods and reproducing results, potentially slowing down progress in this field. In this paper, we present EasyTPP, the first central repository of research assets (e.g., data, models, evaluation programs, documentations) in the area of event sequence modeling. Our EasyTPP makes several unique contributions to this area: a unified interface of using existing datasets and adding new datasets; a wide range of evaluation programs that are easy to use and extend as well as facilitate reproducible research; implementations of popular neural TPPs, together with a rich library of modules by composing which one could quickly build complex models. All the data and implementation can be found at this https URL. We will actively maintain this benchmark and welcome contributions from other researchers and practitioners. Our benchmark will help promote reproducible research in this field, thus accelerating research progress as well as making more significant real-world impacts.
   }
+}
+
+@article{xue2023weaverbird,
+      title={WeaverBird: Empowering Financial Decision-Making with Large Language Model, Knowledge Base, and Search Engine}, 
+      author={Siqiao Xue and Fan Zhou and Yi Xu and Hongyu Zhao and Shuo Xie and Caigao Jiang and James Zhang and Jun Zhou and Dacheng Xiu and Hongyuan Mei},
+      journal={arXiv preprint arXiv:2308.05361},
+      arxiv={2308.05361}, 
+      code={https://github.com/ant-research/fin_domain_llm},
+      year={2023}
 }
 
 @inproceedings{shi2023abductive, 
