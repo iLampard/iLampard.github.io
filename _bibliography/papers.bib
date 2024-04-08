@@ -3,35 +3,161 @@
 
 @string{aps = {American Physical Society,}}
 
-@book{einstein1920relativity,
-  title={Relativity: the Special and General Theory},
-  author={Einstein, Albert},
-  year={1920},
-  publisher={Methuen & Co Ltd},
-  html={relativity.html}
+
+
+@article{xue2024dbgpt,
+      abbr = {arXiv},
+      journal={arXiv preprint},
+      bibtex_show={true},
+      title={DB-GPT: Empowering Database Interactions with Private Large Language Models},
+      author={Siqiao Xue and Caigao Jiang and Wenhui Shi and Fangyin Cheng and Keting Chen and Hongjun Yang and Zhiping Zhang and Jianshan He and Hongyang Zhang and Ganglin Wei and Wang Zhao and Fan Zhou and Danrui Qi and Hong Yi and Shaodong Liu and Faqiang Chen},
+      year={2024},
+      arxiv = {2312.17449},
+      code = {https://github.com/eosphoros-ai/DB-GPT},
+      abstract={
+    The recent breakthroughs in large language models (LLMs) are positioned to transition many areas of software. Database technologies particularly have an important entanglement with LLMs as efficient and intuitive database interactions are paramount. In this paper, we present DB-GPT, a revolutionary and production-ready project that integrates LLMs with traditional database systems to enhance user experience and accessibility. DB-GPT is designed to understand natural language queries, provide context-aware responses, and generate complex SQL queries with high accuracy, making it an indispensable tool for users ranging from novice to expert. The core innovation in DB-GPT lies in its private LLM technology, which is fine-tuned on domain-specific corpora to maintain user privacy and ensure data security while offering the benefits of state-of-the-art LLMs. We detail the architecture of DB-GPT, which includes a novel retrieval augmented generation (RAG) knowledge system, an adaptive learning mechanism to continuously improve performance based on user feedback and a service-oriented multi-model framework (SMMF) with powerful data-driven agents. Our extensive experiments and user studies confirm that DB-GPT represents a paradigm shift in database interactions, offering a more natural, efficient, and secure way to engage with data repositories. The paper concludes with a discussion of the implications of DB-GPT framework on the future of human-database interaction and outlines potential avenues for further enhancements and applications in the field. The project code is available at this https URL. Experience DB-GPT for yourself by installing it with the instructions this https URL and view a concise 10-minute video at this https URL.
+  }
 }
 
-@book{einstein1956investigations,
+
+@inproceedings{wang2023enhancing,
+  abbr = {AAAI},
   bibtex_show={true},
-  title={Investigations on the Theory of the Brownian Movement},
-  author={Einstein, Albert},
-  year={1956},
-  publisher={Courier Corporation},
-  preview={brownian-motion.gif}
+  title={Enhancing Recommender Systems with Large Language Model Reasoning Graphs},
+  author={Wang, Yan and Chu, Zhixuan and Ouyang, Xin and Wang, Simeng and Hao, Hongyan and Shen, Yue and Gu, Jinjie and Xue, Siqiao and Zhang, James Y and Cui, Qing and others},
+  booktitle = {AAAI},
+  year={2024},
+  arxiv = {2308.10835},
+  abstract={
+    Recommendation systems aim to provide users with relevant suggestions, but often lack interpretability and fail to capture higher-level semantic relationships between user behaviors and profiles. In this paper, we propose a novel approach that leverages large language models (LLMs) to construct personalized reasoning graphs. These graphs link a user's profile and behavioral sequences through causal and logical inferences, representing the user's interests in an interpretable way. Our approach, LLM reasoning graphs (LLMRG), has four components: chained graph reasoning, divergent extension, self-verification and scoring, and knowledge base self-improvement. The resulting reasoning graph is encoded using graph neural networks, which serves as additional input to improve conventional recommender systems, without requiring extra user or item information. Our approach demonstrates how LLMs can enable more logical and interpretable recommender systems through personalized reasoning graphs. LLMRG allows recommendations to benefit from both engineered recommendation systems and LLM-derived reasoning graphs. We demonstrate the effectiveness of LLMRG on benchmarks and real-world scenarios in enhancing base recommendation models.
+  }
 }
 
-@article{einstein1950meaning,
-  abbr={AJP},
-  bibtex_show={true},
-  title={The meaning of relativity},
-  author={Einstein, Albert and Taub, AH},
-  journal={American Journal of Physics},
-  volume={18},
-  number={6},
-  pages={403--404},
-  year={1950},
-  publisher={American Association of Physics Teachers}
+
+
+@inproceedings{xue2024easytpp,
+  abbr = {ICLR},
+  bibtex_show = {true},
+  title = {EasyTPP: Towards Open Benchmarking Temporal Point Processes},
+  author = {Xue, Siqiao and Shi, Xiaoming and Chu, Zhixuan and Wang, Yan and Hao, Hongyan and Zhou, Fan and Jiang, Caigao and Pan, Chen and Zhang, James Y and Wen, Qingsong and Zhou, Jun and Mei, Hongyuan},
+  booktitle={ICLR},
+  year={2024},
+  arxiv={2307.08097},
+  code = {https://github.com/ant-research/EasyTemporalPointProcess},
+  abstract = {
+    Continuous-time event sequences play a vital role in real-world domains such as healthcare, finance, online shopping, social networks, and so on. To model such data, temporal point processes (TPPs) have emerged as the most natural and competitive models, making a significant impact in both academic and application communities. Despite the emergence of many powerful models in recent years, there hasn't been a central benchmark for these models and future research endeavors. This lack of standardization impedes researchers and practitioners from comparing methods and reproducing results, potentially slowing down progress in this field. In this paper, we present EasyTPP, the first central repository of research assets (e.g., data, models, evaluation programs, documentations) in the area of event sequence modeling. Our EasyTPP makes several unique contributions to this area: a unified interface of using existing datasets and adding new datasets; a wide range of evaluation programs that are easy to use and extend as well as facilitate reproducible research; implementations of popular neural TPPs, together with a rich library of modules by composing which one could quickly build complex models. All the data and implementation can be found at this https URL. We will actively maintain this benchmark and welcome contributions from other researchers and practitioners. Our benchmark will help promote reproducible research in this field, thus accelerating research progress as well as making more significant real-world impacts.
+  }
 }
+
+@inproceedings{jiang2023anytime,
+      abbr = {EMNLP},
+      bibtex_show = {true},
+      title={Towards Anytime Fine-tuning: Continually Pre-trained Language Models with Hypernetwork Prompt},
+      author={Gangwei Jiang and Caigao Jiang and Siqiao Xue and James Y. Zhang and Jun Zhou and Defu Lian and Ying Wei},
+      year={2023},
+      arxiv={2310.13024},
+      code={https://github.com/gangwJiang/HPrompt-CPT},
+      abstract={Continual pre-training has been urgent for adapting a pre-trained model to a multitude of domains and tasks in the fast-evolving world. In practice, a continually pre-trained model is expected to demonstrate not only greater capacity when fine-tuned on pre-trained domains but also a non-decreasing performance on unseen ones. In this work, we first investigate such anytime fine-tuning effectiveness of existing continual pre-training approaches, concluding with unanimously decreased performance on unseen domains. To this end, we propose a prompt-guided continual pre-training method, where we train a hypernetwork to generate domain-specific prompts by both agreement and disagreement losses. The agreement loss maximally preserves the generalization of a pre-trained model to new domains, and the disagreement one guards the exclusiveness of the generated hidden states for each domain. Remarkably, prompts by the hypernetwork alleviate the domain identity when fine-tuning and promote knowledge transfer across domains. Our method achieved improvements of 3.57% and 3.4% on two real-world datasets (including domain shift and temporal shift), respectively, demonstrating its efficacy.},
+      booktitle = {Findings of EMNLP},
+}
+
+
+@article{xue2023weaverbird,
+      abbr = {arXiv},
+      bibtex_show = {true},
+      title={WeaverBird: Empowering Financial Decision-Making with Large Language Model, Knowledge Base, and Search Engine},
+      author={Siqiao Xue* and Fan Zhou* and Yi Xu and Hongyu Zhao and Shuo Xie and Caigao Jiang and James Zhang and Jun Zhou and Dacheng Xiu and Hongyuan Mei},
+      journal={arXiv preprint},
+      arxiv={2308.05361},
+      code={https://github.com/ant-research/fin_domain_llm},
+      video={https://www.youtube.com/watch?v=yofgeqnlrMc},
+      year={2023},
+      abstract = {
+    We present WeaverBird, an intelligent dialogue system designed specifically for the finance domain. Our system harnesses a large language model of GPT architecture that has been tuned using extensive corpora of finance-related text. As a result, our system possesses the capability to understand complex financial queries, such as "How should I manage my investments during inflation?", and provide informed responses. Furthermore, our system incorporates a local knowledge base and a search engine to retrieve relevant information. The final responses are conditioned on the search results and include proper citations to the sources, thus enjoying an enhanced credibility. Through a range of finance-related questions, we have demonstrated the superior performance of our system compared to other models. To experience our system firsthand, users can interact with our live demo at this https URL, as well as watch our 2-min video illustration at this https URL.
+  }
+}
+
+@inproceedings{xue2023prompttpp,
+  abbr = {NeurIPS},
+  bibtex_show = {true},
+  title={Prompt-augmented Temporal Point Process for Streaming Event Sequence},
+  arxiv={2310.04993},
+  booktitle = {NeurIPS},
+  code={https://github.com/yanyanSann/PromptTPP},
+  author={Xue, Siqiao* and Wang, Yan* and Chu, Zhixuan and Shi, Xiaoming and Jiang, Caigao and Hao, Hongyan and Jiang, Gangwei and Feng, Xiaoyun and Zhang, James and Zhou, Jun},
+  abstract={Neural Temporal Point Processes (TPPs) are the prevalent paradigm for modeling continuous-time event sequences, such as user activities on the web and financial transactions. In real-world applications, event data is typically received in a \emph{streaming} manner, where the distribution of patterns may shift over time. Additionally, \emph{privacy and memory constraints} are commonly observed in practical scenarios, further compounding the challenges. Therefore, the continuous monitoring of a TPP to learn the streaming event sequence is an important yet under-explored problem. Our work paper addresses this challenge by adopting Continual Learning (CL), which makes the model capable of continuously learning a sequence of tasks without catastrophic forgetting under realistic constraints. Correspondingly, we propose a simple yet effective framework, PromptTPP\footnote{Our code is available at {\small \url{ this https URL}}}, by integrating the base TPP with a continuous-time retrieval prompt pool. The prompts, small learnable parameters, are stored in a memory space and jointly optimized with the base TPP, ensuring that the model learns event streams sequentially without buffering past examples or task-specific attributes. We present a novel and realistic experimental setup for modeling event streams, where PromptTPP consistently achieves state-of-the-art performance across three real user behavior datasets.},
+  year={2023}
+}
+
+@inproceedings{shi2023abductive,
+  abbr = {NeurIPS},
+  bibtex_show = {true},
+  title = {Language Models Can Improve Event Prediction by Few-Shot Abductive Reasoning},
+  author = {Shi, Xiaoming and Xue, Siqiao and Wang, Kangrui and Zhou, Fan and Zhang, James Y. and Zhou, Jun and Tan, Chenhao and Mei, Hongyuan},
+  code = {https://github.com/iLampard/lamp},
+  booktitle = {NeurIPS},
+  year={2023},
+  arxiv={2305.16646},
+  abstract = {
+    Large language models have shown astonishing performance on a wide range of reasoning tasks. In this paper, we investigate whether they could reason about real-world events and help improve the prediction performance of event sequence models. We design LAMP, a framework that integrates a large language model in event prediction. Particularly, the language model performs abductive reasoning to assist an event sequence model: the event model proposes predictions on future events given the past; instructed by a few expert-annotated demonstrations, the language model learns to suggest possible causes for each proposal; a search module finds out the previous events that match the causes; a scoring function learns to examine whether the retrieved events could actually cause the proposal. Through extensive experiments on several challenging real-world datasets, we demonstrate that our framework---thanks to the reasoning capabilities of large language models---could significantly outperform the state-of-the-art event sequence models.
+  }
+}
+
+
+@inproceedings{qu2023bellman,
+  abbr = {AAAI},
+  bibtex_show={true},
+  title={Bellman Meets {H}awkes: Model-Based Reinforcement Learning via Temporal Point Processes},
+  author={Qu, Chao and Tan, Xiaoyu and Xue, Siqiao and Shi, Xiaoming and Zhang, James and Mei, Hongyuan},
+  booktitle = {AAAI},
+  year={2023},
+  arxiv = {2201.12569},
+  code = {https://github.com/Event-Driven-rl/Event-Driven-RL},
+  abstract={
+    We consider a sequential decision making problem where the agent faces the environment characterized by the stochastic discrete events and seeks an optimal intervention policy such that its long-term reward is maximized. This problem exists ubiquitously in social media, finance and health informatics but is rarely investigated by the conventional research in reinforcement learning. To this end, we present a novel framework of the model-based reinforcement learning where the agent's actions and observations are asynchronous stochastic discrete events occurring in continuous-time. We model the dynamics of the environment by Hawkes process with external intervention control term and develop an algorithm to embed such process in the Bellman equation which guides the direction of the value gradient. We demonstrate the superiority of our method in both synthetic simulator and real-world problem.
+  }
+}
+
+@inproceedings{xue2022hypro,
+  abbr = {NeurIPS},
+  bibtex_show={true},
+  author =      {Siqiao Xue and Xiaoming Shi and James Y Zhang and Hongyuan Mei},
+  title =       {HYPRO: A Hybridly Normalized Probabilistic Model for Long-Horizon Prediction of Event Sequences},
+  booktitle =   {NeurIPS},
+  year =        {2022},
+  arxiv = {2210.01753},
+  code = {https://github.com/iLampard/hypro_tpp},
+  abstract={
+    In this paper, we tackle the important yet under-investigated problem of making long-horizon prediction of event sequences. Existing state-of-the-art models do not perform well at this task due to their autoregressive structure. We propose HYPRO, a hybridly normalized probabilistic model that naturally fits this task: its first part is an autoregressive base model that learns to propose predictions; its second part is an energy function that learns to reweight the proposals such that more realistic predictions end up with higher probabilities. We also propose efficient training and inference algorithms for this model. Experiments on multiple real-world datasets demonstrate that our proposed HYPRO model can significantly outperform previous models at making long-horizon predictions of future events. We also conduct a range of ablation studies to investigate the effectiveness of each component of our proposed methods.
+  }
+}
+
+@inproceedings{xue_meta_2022,
+  abbr = {KDD},
+  bibtex_show={true},
+  arxiv = {2205.15795},
+  author    = {Siqiao Xue* and
+               Chao Qu* and
+               Xiaoming Shi and
+               Cong Liao and
+               Shiyi Zhu and
+               Xiaoyu Tan and
+               Lintao Ma and
+               Shiyu Wang and
+               Shijun Wang and
+               Yun Hu and
+               Lei Lei and
+               Yangfei Zheng and
+               Jianguo Li and
+               James Zhang},
+  title     = {A Meta Reinforcement Learning Approach for Predictive Autoscaling
+               in the Cloud},
+  abstract={
+    Predictive autoscaling (autoscaling with workload forecasting) is an important mechanism that supports autonomous adjustment of computing resources in accordance with fluctuating workload demands in the Cloud. In recent works, Reinforcement Learning (RL) has been introduced as a promising approach to learn the resource management policies to guide the scaling actions under the dynamic and uncertain cloud environment. However, RL methods face the following challenges in steering predictive autoscaling, such as lack of accuracy in decision-making, inefficient sampling and significant variability in workload patterns that may cause policies to fail at test time. To this end, we propose an end-to-end predictive meta model-based RL algorithm, aiming to optimally allocate resource to maintain a stable CPU utilization level, which incorporates a specially-designed deep periodic workload prediction model as the input and embeds the Neural Process to guide the learning of the optimal scaling actions over numerous application services in the Cloud. Our algorithm not only ensures the predictability and accuracy of the scaling strategy, but also enables the scaling decisions to adapt to the changing workloads with high sample efficiency. Our method has achieved significant performance improvement compared to the existing algorithms and has been deployed online at Alipay, supporting the autoscaling of applications for the world-leading payment platform.
+  },
+  year      = {2022},
+}
+
 
 @article{PhysRev.47.777,
   abbr={PhysRev},
@@ -65,29 +191,4 @@
   pages={549--560},
   year={1905},
   publisher={Wiley Online Library}
-}
-
-@article{einstein1905movement,
-  abbr={Ann. Phys.},
-  title={Un the movement of small particles suspended in statiunary liquids required by the molecular-kinetic theory 0f heat},
-  author={Einstein, A.},
-  journal={Ann. Phys.},
-  volume={17},
-  pages={549--560},
-  year={1905}
-}
-
-@article{einstein1905electrodynamics,
-  title={On the electrodynamics of moving bodies},
-  author={Einstein, A.},
-  year={1905}
-}
-
-@book{przibram1967letters,
-  bibtex_show={true},
-  title={Letters on wave mechanics},
-  author={Einstein, Albert and Schrödinger, Erwin and Planck, Max and Lorentz, Hendrik Antoon and Przibram, Karl},
-  year={1967},
-  publisher={Vision},
-  preview={wave-mechanics.gif}
 }
