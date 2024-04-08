@@ -35,16 +35,29 @@
 
 @article{xue2023weaverbird,
       abbr = {arXiv},
+      bibtex_show = {true},
       title={WeaverBird: Empowering Financial Decision-Making with Large Language Model, Knowledge Base, and Search Engine}, 
       author={Siqiao Xue and Fan Zhou and Yi Xu and Hongyu Zhao and Shuo Xie and Caigao Jiang and James Zhang and Jun Zhou and Dacheng Xiu and Hongyuan Mei},
       journal={arXiv preprint},
       arxiv={2308.05361}, 
       code={https://github.com/ant-research/fin_domain_llm},
       html={https://www.youtube.com/watch?v=yofgeqnlrMc},
+      year={2023},
       abstract = {
     We present WeaverBird, an intelligent dialogue system designed specifically for the finance domain. Our system harnesses a large language model of GPT architecture that has been tuned using extensive corpora of finance-related text. As a result, our system possesses the capability to understand complex financial queries, such as "How should I manage my investments during inflation?", and provide informed responses. Furthermore, our system incorporates a local knowledge base and a search engine to retrieve relevant information. The final responses are conditioned on the search results and include proper citations to the sources, thus enjoying an enhanced credibility. Through a range of finance-related questions, we have demonstrated the superior performance of our system compared to other models. To experience our system firsthand, users can interact with our live demo at this https URL, as well as watch our 2-min video illustration at this https URL.
   }
-      year={2023}
+}
+
+@inproceedings{xue2023prompttpp,
+  abbr = {NeurIPS}, 
+  bibtex_show = {true}, 
+  title={Prompt-augmented Temporal Point Process for Streaming Event Sequence},
+  arxiv={2310.04993}, 
+  booktitle = {NeurIPS}, 
+  code={https://github.com/yanyanSann/PromptTPP},
+  author={Xue, Siqiao and Wang, Yan and Chu, Zhixuan and Shi, Xiaoming and Jiang, Caigao and Hao, Hongyan and Jiang, Gangwei and Feng, Xiaoyun and Zhang, James and Zhou, Jun},
+  abstract={Neural Temporal Point Processes (TPPs) are the prevalent paradigm for modeling continuous-time event sequences, such as user activities on the web and financial transactions. In real-world applications, event data is typically received in a \emph{streaming} manner, where the distribution of patterns may shift over time. Additionally, \emph{privacy and memory constraints} are commonly observed in practical scenarios, further compounding the challenges. Therefore, the continuous monitoring of a TPP to learn the streaming event sequence is an important yet under-explored problem. Our work paper addresses this challenge by adopting Continual Learning (CL), which makes the model capable of continuously learning a sequence of tasks without catastrophic forgetting under realistic constraints. Correspondingly, we propose a simple yet effective framework, PromptTPP\footnote{Our code is available at {\small \url{ this https URL}}}, by integrating the base TPP with a continuous-time retrieval prompt pool. The prompts, small learnable parameters, are stored in a memory space and jointly optimized with the base TPP, ensuring that the model learns event streams sequentially without buffering past examples or task-specific attributes. We present a novel and realistic experimental setup for modeling event streams, where PromptTPP consistently achieves state-of-the-art performance across three real user behavior datasets.}
+  year={2023}
 }
 
 @inproceedings{shi2023abductive, 
@@ -90,27 +103,32 @@
   }
 }
 
-@book{einstein1956investigations,
+@inproceedings{xue_meta_2022,
+  abbr = {KDD},
   bibtex_show={true},
-  title={Investigations on the Theory of the Brownian Movement},
-  author={Einstein, Albert},
-  year={1956},
-  publisher={Courier Corporation},
-  preview={brownian-motion.gif}
+  arxiv = {2205.15795}, 
+  author    = {Siqiao Xue and
+               Chao Qu and
+               Xiaoming Shi and
+               Cong Liao and
+               Shiyi Zhu and
+               Xiaoyu Tan and
+               Lintao Ma and
+               Shiyu Wang and
+               Shijun Wang and
+               Yun Hu and
+               Lei Lei and
+               Yangfei Zheng and
+               Jianguo Li and
+               James Zhang},
+  title     = {A Meta Reinforcement Learning Approach for Predictive Autoscaling
+               in the Cloud},
+  abstract={
+    Predictive autoscaling (autoscaling with workload forecasting) is an important mechanism that supports autonomous adjustment of computing resources in accordance with fluctuating workload demands in the Cloud. In recent works, Reinforcement Learning (RL) has been introduced as a promising approach to learn the resource management policies to guide the scaling actions under the dynamic and uncertain cloud environment. However, RL methods face the following challenges in steering predictive autoscaling, such as lack of accuracy in decision-making, inefficient sampling and significant variability in workload patterns that may cause policies to fail at test time. To this end, we propose an end-to-end predictive meta model-based RL algorithm, aiming to optimally allocate resource to maintain a stable CPU utilization level, which incorporates a specially-designed deep periodic workload prediction model as the input and embeds the Neural Process to guide the learning of the optimal scaling actions over numerous application services in the Cloud. Our algorithm not only ensures the predictability and accuracy of the scaling strategy, but also enables the scaling decisions to adapt to the changing workloads with high sample efficiency. Our method has achieved significant performance improvement compared to the existing algorithms and has been deployed online at Alipay, supporting the autoscaling of applications for the world-leading payment platform.
+  }
+  year      = {2022},
 }
 
-@article{einstein1950meaning,
-  abbr={AJP},
-  bibtex_show={true},
-  title={The meaning of relativity},
-  author={Einstein, Albert and Taub, AH},
-  journal={American Journal of Physics},
-  volume={18},
-  number={6},
-  pages={403--404},
-  year={1950},
-  publisher={American Association of Physics Teachers}
-}
 
 @article{PhysRev.47.777,
   abbr={PhysRev},
@@ -144,29 +162,4 @@
   pages={549--560},
   year={1905},
   publisher={Wiley Online Library}
-}
-
-@article{einstein1905movement,
-  abbr={Ann. Phys.},
-  title={Un the movement of small particles suspended in statiunary liquids required by the molecular-kinetic theory 0f heat},
-  author={Einstein, A.},
-  journal={Ann. Phys.},
-  volume={17},
-  pages={549--560},
-  year={1905}
-}
-
-@article{einstein1905electrodynamics,
-  title={On the electrodynamics of moving bodies},
-  author={Einstein, A.},
-  year={1905}
-}
-
-@book{przibram1967letters,
-  bibtex_show={true},
-  title={Letters on wave mechanics},
-  author={Einstein, Albert and Schrödinger, Erwin and Planck, Max and Lorentz, Hendrik Antoon and Przibram, Karl},
-  year={1967},
-  publisher={Vision},
-  preview={wave-mechanics.gif}
 }
