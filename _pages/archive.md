@@ -11,6 +11,7 @@ nav_order: 4
 
 
 Machine Learning:
+- A note on Temporal Point Process, 2019.
 - A [Mathematical Explanatory Note on mainstream Machine Learning Methods](https://github.com/iLampard/MLDL_Math_Note/blob/master/ML_Model/main.pdf) (in Chinese), 2017.
 - A [Solution Manual](https://github.com/iLampard/MLDL_Math_Note/blob/master/obsolete/ML_Solution_LiHangBook.pdf) (in Chinese) to Lihang's text book (统计学习方法，第一版), 2017.
 
