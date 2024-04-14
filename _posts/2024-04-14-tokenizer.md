@@ -2,10 +2,10 @@
 layout: post
 title: understanding tokenizer
 date: 2024-04-14 19:22:00
-description: this is how you can display code diffs
+description: a detailed discussion on llm tokenizer
 tags: tokenizer 
 categories: LLM
-code_diff: true
+comments: true
 ---
 
 # Background
