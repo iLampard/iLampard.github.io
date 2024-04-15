@@ -125,8 +125,8 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 # Blog
 # -----------------------------------------------------------------------------
 
-blog_name: notes and tutorials # blog_name will be displayed in your blog page
-blog_description: thoughts on ai and machine learning
+blog_name: notes # blog_name will be displayed in your blog page
+blog_description: on ai that worth sharing
 permalink: /blog/:year/:title/
 
 # Pagination
