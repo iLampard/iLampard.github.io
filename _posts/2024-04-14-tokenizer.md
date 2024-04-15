@@ -1,6 +1,6 @@
 ---
 layout: post
-title: understanding tokenizer
+title: Understanding tokenizer
 date: 2024-04-14 19:22:00
 description: a detailed discussion on llm tokenizer
 tags: llm code 
@@ -16,6 +16,20 @@ A tokenizer is in charge of preparing the inputs for a model. It is used to spli
 Shown below, we split a sentence using the GPT-2 tokenizer. "I have an egg" has been split into five tokens, along with the space in between the words and '!' punctuation. A visualization playground can be found at [vercel](https://tiktokenizer.vercel.app/?encoder=gpt2). 
 
 
+{% highlight python linenos %}
+
+from transformers import GPT2Tokenizer
+
+tokenizer = GPT2Tokenizer.from_pretrained("openai-community/gpt2")
+
+tokenizer.tokenize("I have an egg!")
+
+>>> ['I', 'Ġhave', 'Ġan', 'Ġegg', '!']
+
+tokenizer("I have an egg!")["input_ids"]
+
+>>> [40, 423, 281, 5935, 0]
+{% endhighlight %}
 
 
 <!---
