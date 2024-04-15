@@ -3,7 +3,7 @@ layout: post
 title: understanding tokenizer
 date: 2024-04-14 19:22:00
 description: a detailed discussion on llm tokenizer
-tags: tokenizer 
+tags: llm code 
 categories: LLM
 comments: true
 ---
