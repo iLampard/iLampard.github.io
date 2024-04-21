@@ -10,7 +10,7 @@ selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 ---
 
-I am currently a research engineer at Alipay. Before joining Alipay, I worked as a quantitative researcher at BNP Paribas (APAC) and Deutsche Bank (London). I received my master's degree from the City University of New York and École Polytechnique (Paris), specializing in probability theory and stochastic processes. I completed my undergraduate studies at Nanjing University.
+I am currently a research engineer at Alipay. Before joining Alipay, I worked as a quantitative researcher at BNP Paribas (Singapore) and Deutsche Bank (London). I received my master's degrees from the [City University of New York](https://www.cuny.edu/) and [École Polytechnique](https://www.polytechnique.edu/) (Paris), respectively, specializing in probability theory and stochastic processes. I completed my undergraduate studies at [Nanjing University](https://www.nju.edu.cn/en/).
 
 My main research interests include: 
 - large language models: continual learning ([HyperPrompt](https://arxiv.org/abs/2310.13024)), reasoning ([LMAP](https://arxiv.org/abs/2305.16646)), agent ([DB-GPT](https://arxiv.org/abs/2312.17449)). 
