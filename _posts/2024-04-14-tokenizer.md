@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Understanding tokenizer
+title: Understanding tokenizer from Andrej Karpathy's tutorial
 date: 2024-04-14 19:22:00
-description: a detailed discussion on llm tokenizer
+description: a detailed note on llm tokenizer
 tags: llm code 
 categories: LLM
 comments: true
