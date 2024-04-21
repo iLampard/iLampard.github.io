@@ -71,6 +71,7 @@ class CausalAttention(nn.Module):
 
 len(tokenizer(code)["input_ids"])
 > 255
+
 {% endhighlight %}
 
 
@@ -83,6 +84,7 @@ gpt4_tokenizer = GPT2Tokenizer.from_pretrained('Xenova/gpt-4')
 
 len(gpt4_tokenizer(code)["input_ids"])
 > 188
+
 {% endhighlight %}
 
 For the same text, the length of tokenized sequence using GPT-4 tokenizer is shorter than that of using GPT-2 tokenzier (a denser input), indicating the number of tokens in GPT-4 tokenizer is larger than that of GPT-2 tokenizer.
