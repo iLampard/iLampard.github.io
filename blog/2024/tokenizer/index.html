@@ -8,17 +8,105 @@
 7
 8
 9
-10
-11
 </pre></td> <td class="code"><pre><span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">GPT2Tokenizer</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">GPT2Tokenizer</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span><span class="sh">"</span><span class="s">openai-community/gpt2</span><span class="sh">"</span><span class="p">)</span>
 
 <span class="n">tokenizer</span><span class="p">.</span><span class="nf">tokenize</span><span class="p">(</span><span class="sh">"</span><span class="s">I have an egg!</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="sh">'</span><span class="s">I</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Ġhave</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Ġan</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Ġegg</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">!</span><span class="sh">'</span><span class="p">]</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="sh">'</span><span class="s">I</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Ġhave</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Ġan</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Ġegg</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">!</span><span class="sh">'</span><span class="p">]</span>
 
 <span class="nf">tokenizer</span><span class="p">(</span><span class="sh">"</span><span class="s">I have an egg!</span><span class="sh">"</span><span class="p">)[</span><span class="sh">"</span><span class="s">input_ids</span><span class="sh">"</span><span class="p">]</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">423</span><span class="p">,</span> <span class="mi">281</span><span class="p">,</span> <span class="mi">5935</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <h2 id="impact-of-language-on-tokenization">Impact of Language on Tokenization</h2> <p>Text written in English will almost always result in less tokens than the equivalent text in non-English languages. Most western languages, using the Latin alphabet, typically tokenize around words and punctuation. In contrast, logographic systems like Chinese often treat each character as a distinct token, leading to higher token counts.</p> <h3 id="gpt-2-tokenizer-english-vs-chinese-vs-python-code">GPT-2 Tokenizer: English vs Chinese vs Python Code</h3> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td> <td class="code"><pre><span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">GPT2Tokenizer</span>
 
-<span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">423</span><span class="p">,</span> <span class="mi">281</span><span class="p">,</span> <span class="mi">5935</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-</pre></td> </tr></tbody></table></code></pre></figure> </div> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2024 Siqiao Xue. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>. </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="/assets/js/bootstrap.bundle.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js" type="text/javascript"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script> <script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script> <script defer src="/assets/js/common.js?fcfacfb8c6281f5e68d5a7d348186eb1"></script> <script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script type="text/javascript">window.MathJax={tex:{tags:"ams"}};</script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script> <script type="text/javascript">function progressBarSetup(){"max"in document.createElement("progress")?(initializeProgressElement(),$(document).on("scroll",function(){progressBar.attr({value:getCurrentScrollPosition()})}),$(window).on("resize",initializeProgressElement)):(resizeProgressBar(),$(document).on("scroll",resizeProgressBar),$(window).on("resize",resizeProgressBar))}function getCurrentScrollPosition(){return $(window).scrollTop()}function initializeProgressElement(){let e=$("#navbar").outerHeight(!0);$("body").css({"padding-top":e}),$("progress-container").css({"padding-top":e}),progressBar.css({top:e}),progressBar.attr({max:getDistanceToScroll(),value:getCurrentScrollPosition()})}function getDistanceToScroll(){return $(document).height()-$(window).height()}function resizeProgressBar(){progressBar.css({width:getWidthPercentage()+"%"})}function getWidthPercentage(){return getCurrentScrollPosition()/getDistanceToScroll()*100}const progressBar=$("#progress");window.onload=function(){setTimeout(progressBarSetup,50)};</script> </body> </html>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">GPT2Tokenizer</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span><span class="sh">"</span><span class="s">openai-community/gpt2</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="nf">tokenizer</span><span class="p">(</span><span class="sh">"</span><span class="s">I have an egg</span><span class="sh">"</span><span class="p">)[</span><span class="sh">"</span><span class="s">input_ids</span><span class="sh">"</span><span class="p">]</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">423</span><span class="p">,</span> <span class="mi">281</span><span class="p">,</span> <span class="mi">5935</span><span class="p">]</span>
+
+<span class="nf">tokenizer</span><span class="p">(</span><span class="sh">"</span><span class="s">我有个鸡蛋</span><span class="sh">"</span><span class="p">)[</span><span class="sh">"</span><span class="s">input_ids</span><span class="sh">"</span><span class="p">]</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="mi">22755</span><span class="p">,</span> <span class="mi">239</span><span class="p">,</span> <span class="mi">17312</span><span class="p">,</span> <span class="mi">231</span><span class="p">,</span> <span class="mi">10310</span><span class="p">,</span> <span class="mi">103</span><span class="p">,</span> <span class="mi">165</span><span class="p">,</span> <span class="mi">116</span><span class="p">,</span> <span class="mi">94</span><span class="p">,</span> <span class="mi">164</span><span class="p">,</span> <span class="mi">249</span><span class="p">,</span> <span class="mi">233</span><span class="p">]</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <p>After tokenization (e.g., using GPT-2 tokenizer), the length of non-English sequence is typically longer than the English counter-party. As a result, non-English sentence will be more likely to run out the contextual input that fed into the model. This is one reason why early versions of GPT are not good at chating in non-English languages.</p> <p>For the code, the individual spaces corresponds to seperate tokens (‘220’). Similar to the non-English sentence, the tokenized code sequence that fed into the model has a lot of wasteful tokens, making the model harder to learn.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td> <td class="code"><pre><span class="n">code</span> <span class="o">=</span> <span class="sh">'''</span><span class="s">
+class CausalAttention(nn.Module):
+
+    def __init__(self, d_in, d_out, block_size, dropout, qkv_bias=False):
+        super().__init__()
+        self.d_out = d_out
+        self.W_query = nn.Linear(d_in, d_out, bias=qkv_bias)
+        self.W_key = nn.Linear(d_in, d_out, bias=qkv_bias)
+        self.W_value = nn.Linear(d_in, d_out, bias=qkv_bias)
+        self.dropout = nn.Dropout(dropout)  # New
+        self.register_buffer(</span><span class="sh">'</span><span class="s">mask</span><span class="sh">'</span><span class="s">, torch.triu(torch.ones(block_size, block_size), diagonal=1))  # New
+
+</span><span class="sh">'''</span>
+
+<span class="nf">len</span><span class="p">(</span><span class="nf">tokenizer</span><span class="p">(</span><span class="n">code</span><span class="p">)[</span><span class="sh">"</span><span class="s">input_ids</span><span class="sh">"</span><span class="p">])</span>
+<span class="o">&gt;</span> <span class="mi">255</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <h2 id="gpt-2-vs-gpt-4-tokenizer">GPT-2 vs GPT-4 tokenizer</h2> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td> <td class="code"><pre><span class="n">gpt4_tokenizer</span> <span class="o">=</span> <span class="n">GPT2Tokenizer</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span><span class="sh">'</span><span class="s">Xenova/gpt-4</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="nf">len</span><span class="p">(</span><span class="nf">gpt4_tokenizer</span><span class="p">(</span><span class="n">code</span><span class="p">)[</span><span class="sh">"</span><span class="s">input_ids</span><span class="sh">"</span><span class="p">])</span>
+<span class="o">&gt;</span> <span class="mi">188</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <p>For the same text, the length of tokenized sequence using GPT-4 tokenizer is shorter than that of using GPT-2 tokenzier (a denser input), indicating the number of tokens in GPT-4 tokenizer is larger than that of GPT-2 tokenizer.</p> <p>Compared to GPT-2, GPT-4</p> <ul> <li>can be fed in longer the sequence, i.e., more context can be seen in prediction.</li> <li>the vocab size is larger. The size of embedding table is larger and the cost of softmax operations grows as well.</li> </ul> <h1 id="build-a-tokenizer">Build a Tokenizer</h1> <h2 id="general-mechanism-of-tokenization-process">General Mechanism of Tokenization Process</h2> <p>A few concept:</p> <ul> <li> <a href="https://en.wikipedia.org/wiki/Unicode" rel="external nofollow noopener" target="_blank">unicode</a>: a text encoding standard defined for a large size of characters and scripts. Version 15.1 of the standard defines 149813 characters and 161 scripts used in various ordinary, literary, academic, and technical contexts.</li> <li> <a href="https://en.wikipedia.org/wiki/UTF-8" rel="external nofollow noopener" target="_blank">utf-8</a> encoding: it translate unicode code point into one to four bytes。</li> </ul> <p>Why not using unicode as string ids: vocabulary size is too large and is not a stable representation of strings as the standard has been kept chaning.</p> <p>Why not using utf-8: vocabulary size is too small (256). Encoded with utf-8, the sentence length will be notably long and easily consume the context, making the model harder to learn relevant tasks, e.g., next-token prediction.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td> <td class="code"><pre><span class="c1"># unicode of character
+</span><span class="nf">ord</span><span class="p">(</span><span class="sh">"</span><span class="s">I</span><span class="sh">"</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="mi">73</span>
+
+<span class="p">[</span><span class="nf">ord</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="sh">'</span><span class="s">I have an egg!</span><span class="sh">'</span><span class="p">]</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="mi">73</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">104</span><span class="p">,</span> <span class="mi">97</span><span class="p">,</span> <span class="mi">118</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">97</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">103</span><span class="p">,</span> <span class="mi">103</span><span class="p">,</span> <span class="mi">33</span><span class="p">]</span>
+
+
+<span class="nf">list</span><span class="p">(</span><span class="sh">'</span><span class="s">I have an egg!</span><span class="sh">'</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="sh">'</span><span class="s">utf-8</span><span class="sh">'</span><span class="p">))</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="mi">73</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">104</span><span class="p">,</span> <span class="mi">97</span><span class="p">,</span> <span class="mi">118</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">97</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">103</span><span class="p">,</span> <span class="mi">103</span><span class="p">,</span> <span class="mi">33</span><span class="p">]</span>
+
+
+<span class="c1"># utf-16 encoding results in longer and more sparse id list
+</span><span class="nf">list</span><span class="p">(</span><span class="sh">'</span><span class="s">I have an egg!</span><span class="sh">'</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="sh">'</span><span class="s">utf-16</span><span class="sh">'</span><span class="p">))</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">254</span><span class="p">,</span> <span class="mi">73</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">104</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">97</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">118</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">97</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">103</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">103</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <p>Based on the disucssion. above, a ideal tokenizer is the one that supports a vacaburary with reasonaly large size which can be tuned as a hyperparameter while replying on the utf-8 encodings of strings</p> </div> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2024 Siqiao Xue. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>. </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="/assets/js/bootstrap.bundle.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js" type="text/javascript"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script> <script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script> <script defer src="/assets/js/common.js?fcfacfb8c6281f5e68d5a7d348186eb1"></script> <script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script type="text/javascript">window.MathJax={tex:{tags:"ams"}};</script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script> <script type="text/javascript">function progressBarSetup(){"max"in document.createElement("progress")?(initializeProgressElement(),$(document).on("scroll",function(){progressBar.attr({value:getCurrentScrollPosition()})}),$(window).on("resize",initializeProgressElement)):(resizeProgressBar(),$(document).on("scroll",resizeProgressBar),$(window).on("resize",resizeProgressBar))}function getCurrentScrollPosition(){return $(window).scrollTop()}function initializeProgressElement(){let e=$("#navbar").outerHeight(!0);$("body").css({"padding-top":e}),$("progress-container").css({"padding-top":e}),progressBar.css({top:e}),progressBar.attr({max:getDistanceToScroll(),value:getCurrentScrollPosition()})}function getDistanceToScroll(){return $(document).height()-$(window).height()}function resizeProgressBar(){progressBar.css({width:getWidthPercentage()+"%"})}function getWidthPercentage(){return getCurrentScrollPosition()/getDistanceToScroll()*100}const progressBar=$("#progress");window.onload=function(){setTimeout(progressBarSetup,50)};</script> </body> </html>
