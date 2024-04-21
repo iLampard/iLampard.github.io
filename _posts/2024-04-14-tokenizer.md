@@ -23,14 +23,109 @@ from transformers import GPT2Tokenizer
 tokenizer = GPT2Tokenizer.from_pretrained("openai-community/gpt2")
 
 tokenizer.tokenize("I have an egg!")
-
->>> ['I', 'Ġhave', 'Ġan', 'Ġegg', '!']
+> ['I', 'Ġhave', 'Ġan', 'Ġegg', '!']
 
 tokenizer("I have an egg!")["input_ids"]
+> [40, 423, 281, 5935, 0]
 
->>> [40, 423, 281, 5935, 0]
 {% endhighlight %}
 
+## Impact of Language on Tokenization
+
+Text written in English will almost always result in less tokens than the equivalent text in non-English languages. Most western languages, using the Latin alphabet, typically tokenize around words and punctuation. In contrast, logographic systems like Chinese often treat each character as a distinct token, leading to higher token counts.
+
+### GPT-2 Tokenizer: English vs Chinese vs Python Code
+
+{% highlight python linenos %}
+
+from transformers import GPT2Tokenizer
+
+tokenizer = GPT2Tokenizer.from_pretrained("openai-community/gpt2")
+
+tokenizer("I have an egg")["input_ids"]
+> [40, 423, 281, 5935]
+
+tokenizer("我有个鸡蛋")["input_ids"]
+> [22755, 239, 17312, 231, 10310, 103, 165, 116, 94, 164, 249, 233]
+
+{% endhighlight %}
+
+After tokenization (e.g., using GPT-2 tokenizer), the length of non-English sequence is typically longer than the English counter-party. As a result, non-English sentence will be more likely to run out the contextual input that fed into the model. This is one reason why early versions of GPT are not good at chating in non-English languages.
+
+For the code, the individual spaces corresponds to seperate tokens ('220'). Similar to the non-English sentence, the tokenized code sequence that fed into the model has a lot of wasteful tokens, making the model harder to learn.
+
+{% highlight python linenos %}
+code = '''
+class CausalAttention(nn.Module):
+
+    def __init__(self, d_in, d_out, block_size, dropout, qkv_bias=False):
+        super().__init__()
+        self.d_out = d_out
+        self.W_query = nn.Linear(d_in, d_out, bias=qkv_bias)
+        self.W_key = nn.Linear(d_in, d_out, bias=qkv_bias)
+        self.W_value = nn.Linear(d_in, d_out, bias=qkv_bias)
+        self.dropout = nn.Dropout(dropout)  # New
+        self.register_buffer('mask', torch.triu(torch.ones(block_size, block_size), diagonal=1))  # New
+
+'''
+
+len(tokenizer(code)["input_ids"])
+> 255
+{% endhighlight %}
+
+
+## GPT-2 vs GPT-4 tokenizer
+
+
+{% highlight python linenos %}
+
+gpt4_tokenizer = GPT2Tokenizer.from_pretrained('Xenova/gpt-4')
+
+len(gpt4_tokenizer(code)["input_ids"])
+> 188
+{% endhighlight %}
+
+For the same text, the length of tokenized sequence using GPT-4 tokenizer is shorter than that of using GPT-2 tokenzier (a denser input), indicating the number of tokens in GPT-4 tokenizer is larger than that of GPT-2 tokenizer.
+
+Compared to GPT-2, GPT-4
+- can be fed in longer the sequence, i.e., more context can be seen in prediction.
+- the vocab size is larger. The size of embedding table is larger and the cost of softmax operations grows as well.
+
+
+# Build a Tokenizer
+
+## General Mechanism of Tokenization Process
+
+A few concept:
+- [unicode](https://en.wikipedia.org/wiki/Unicode): a text encoding standard defined for a large size of characters and scripts. Version 15.1 of the standard defines 149813 characters and 161 scripts used in various ordinary, literary, academic, and technical contexts.
+- [utf-8](https://en.wikipedia.org/wiki/UTF-8) encoding: it translate unicode code point into one to four bytes。
+
+
+Why not using unicode as string ids: vocabulary size is too large and is not a stable representation of strings as the standard has been kept chaning.
+
+Why not using utf-8: vocabulary size is too small (256). Encoded with utf-8, the sentence length will be notably long and easily consume the context, making the model harder to learn relevant tasks, e.g., next-token prediction.
+
+{% highlight python linenos %}
+
+# unicode of character
+ord("I")
+> 73
+
+[ord(x) for x in 'I have an egg!']
+> [73, 32, 104, 97, 118, 101, 32, 97, 110, 32, 101, 103, 103, 33]
+
+
+list('I have an egg!'.encode('utf-8'))
+> [73, 32, 104, 97, 118, 101, 32, 97, 110, 32, 101, 103, 103, 33]
+
+
+# utf-16 encoding results in longer and more sparse id list
+list('I have an egg!'.encode('utf-16'))
+> [255, 254, 73, 0, 32, 0, 104, 0, 97, 0, 118, 0, 101, 0, 32, 0, 97, 0, 110, 0, 32, 0, 101, 0, 103, 0, 103, 0, 33, 0]
+
+{% endhighlight %}
+
+Based on the disucssion. above, a ideal tokenizer is the one that supports a vacaburary with reasonaly large size which can be tuned as a hyperparameter while replying on the utf-8 encodings of strings
 
 <!---
 You can display diff code by using the regular markdown syntax:
