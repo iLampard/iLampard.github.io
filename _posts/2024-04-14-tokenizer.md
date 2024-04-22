@@ -6,8 +6,6 @@ description: a detailed note on llm tokenizer
 tags: llm code 
 categories: LLM
 featured: true
----
-
 
 toc:
   - name: Background
@@ -19,6 +17,10 @@ toc:
     subsections:
     - name: General Mechanism of Tokenization Process
     - name: Byte-level Byte Pair Encoding (BPE)
+      
+---
+
+
 
    
 # Background
