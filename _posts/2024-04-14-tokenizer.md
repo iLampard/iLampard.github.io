@@ -32,7 +32,7 @@ tokenizer("I have an egg!")["input_ids"]
 
 ## Impact of Language on Tokenization
 
-Text written in English will almost always result in less tokens than the equivalent text in non-English languages. Most western languages, using the Latin alphabet, typically tokenize around words and punctuation. In contrast, logographic systems like Chinese often treat each character as a distinct token, leading to higher token counts.
+Text written in English will almost always result in less tokens than the equivalent text in non-English languages. Most western languages, using the Latin alphabet, typically tokenize around words and punctuations. In contrast, logographic systems like Chinese often treat each character as a distinct token, leading to higher token counts.
 
 ### GPT-2 Tokenizer: English vs Chinese vs Python Code
 
@@ -50,9 +50,9 @@ tokenizer("我有个鸡蛋")["input_ids"]
 
 {% endhighlight %}
 
-After tokenization (e.g., using GPT-2 tokenizer), the length of non-English sequence is typically longer than the English counter-party. As a result, non-English sentence will be more likely to run out the contextual input that fed into the model. This is one reason why early versions of GPT are not good at chating in non-English languages.
+After tokenization (e.g., using GPT-2 tokenizer), the length of non-English sequence is typically longer than the English counter-party. As a result, non-English sentence will be more likely to run out the contextual input that are fed into the model. This is one reason why early versions of GPT are not good at chating in non-English languages.
 
-For the code, the individual spaces corresponds to seperate tokens ('220'). Similar to the non-English sentence, the tokenized code sequence that fed into the model has a lot of wasteful tokens, making the model harder to learn.
+For the code, the individual spaces corresponds to seperate tokens ('220'). Similar to the non-English sentence, the tokenized code sequence that are fed into the model has a lot of wasteful tokens, making the model harder to learn.
 
 {% highlight python linenos %}
 code = '''
@@ -87,11 +87,11 @@ len(gpt4_tokenizer(code)["input_ids"])
 
 {% endhighlight %}
 
-For the same text, the length of tokenized sequence using GPT-4 tokenizer is shorter than that of using GPT-2 tokenzier (a denser input), indicating the number of tokens in GPT-4 tokenizer is larger than that of GPT-2 tokenizer.
+For the same text, the length of tokenized sequence using GPT-4 tokenizer is shorter than that of using GPT-2 tokenzier (a denser input), indicating the number of tokens in GPT-4 tokenizer (a.k.a. vocabulary size) is larger than that of GPT-2 tokenizer.
 
 Compared to GPT-2, GPT-4
 - can be fed in longer the sequence, i.e., more context can be seen in prediction.
-- the vocab size is larger. The size of embedding table is larger and the cost of softmax operations grows as well.
+- the vocab size is larger. The size of embedding table is larger and the cost of softmax operations grows as well. Vocabulary size of GPT-4 vs GPT-2: 100,256 vs 50,257.
 
 
 # Build a Tokenizer
@@ -127,7 +127,72 @@ list('I have an egg!'.encode('utf-16'))
 
 {% endhighlight %}
 
-Based on the disucssion. above, a ideal tokenizer is the one that supports a vacaburary with reasonaly large size which can be tuned as a hyperparameter while replying on the utf-8 encodings of strings
+Based on the disucssion above, an ideal tokenizer is the one that supports a vacaburary with reasonaly large size which can be tuned as a hyperparameter while replying on the utf-8 encodings of strings.
+
+
+## Byte-level Byte Pair Encoding (BPE)
+
+
+Byte-level BPE is the tokenization algorithm used in GPT-2. The idea is we start from byte sequence with a vocabulary size 256, iteratively find the byte pairs that occur the most, merge as new tokens and append to the vocabulary. 
+
+
+To build up a BPE tokenizer, we start by intialize a training process.
+
+Note that the code is basically copied from the implementation at [minbpe](https://github.com/karpathy/minbpe).
+
+
+### Training: Merge by Frequency
+
+
+As an example below, we start by encoding a sentence in utf-8. Note that after encoding in utf-8, some complex characters have been encoded into multiple bytes (up to four) and therefore the encoded sequence becomes longer.
+
+{% highlight python linenos %}
+
+text = "💡 Using train_new_from_iterator() on the same corpus won’t result in the exact same vocabulary. This is because when there is a choice of the most frequent pair, we selected the first one encountered, while the 🤗 Tokenizers library selects the first one based on its inner IDs."
+
+print('length of text in code points', len(text))
+> length of text in code points 277
+
+# raw bytes
+tokens = text.encode('utf8')
+
+# list(map(int, tokens))
+tokens = list(tokens)
+
+print('length of text encoded in utf8 tokens ', len(tokens))
+> length of text encoded in utf8 tokens  285
+
+# get the frequency of consecutive byte pairs
+def get_stats(ids):
+  counts = {}
+
+  for pair in zip(ids, ids[1:]):
+    counts[pair] = counts.get(pair, 0) + 1
+
+  return counts
+
+stats = get_stats(tokens)
+
+sorted(((v, k) for (k, v) in stats.items()), reverse=True)[:10]
+
+> [(15, (101, 32)),
+ (8, (104, 101)),
+ (8, (32, 116)),
+ (7, (116, 104)),
+ (7, (116, 32)),
+ (7, (115, 32)),
+ (5, (111, 110)),
+ (5, (101, 114)),
+ (5, (32, 111)),
+ (5, (32, 105))]
+
+# see what is token 101 and 32
+chr(101),chr(32)
+> ('e', ' ')
+
+{% endhighlight %}
+
+
 
 <!---
 You can display diff code by using the regular markdown syntax:
