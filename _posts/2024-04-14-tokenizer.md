@@ -5,9 +5,22 @@ date: 2024-04-14 19:22:00
 description: a detailed note on llm tokenizer
 tags: llm code 
 categories: LLM
-comments: true
+featured: true
 ---
 
+
+toc:
+  - name: Background
+    subsections:
+    - name: What is Tokenizer
+    - name: Impact of Language on Tokenization
+    - name: GPT-2 vs GPT-4 tokenizer
+  - name: Build a Tokenizer
+    subsections:
+    - name: General Mechanism of Tokenization Process
+    - name: Byte-level Byte Pair Encoding (BPE)
+
+   
 # Background
 ## What is Tokenizer
 
@@ -115,7 +128,6 @@ ord("I")
 
 [ord(x) for x in 'I have an egg!']
 > [73, 32, 104, 97, 118, 101, 32, 97, 110, 32, 101, 103, 103, 33]
-
 
 list('I have an egg!'.encode('utf-8'))
 > [73, 32, 104, 97, 118, 101, 32, 97, 110, 32, 101, 103, 103, 33]
