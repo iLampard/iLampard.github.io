@@ -15,36 +15,21 @@ toc:
   - name: Mixed-Precision Training
   - name: Reference
 
-_styles: >
-  .fake-img {
-    background: #bbb;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 0px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 12px;
-  }
-  .fake-img p {
-    font-family: monospace;
-    color: white;
-    text-align: left;
-    margin: 12px 0;
-    text-align: center;
-    font-size: 16px;
-  }
   
 ---
 
 
 
-# Background
+## Background
 
-## Float32 and Float64 Precision
+### Float32 and Float64 Precision
 
 When training deep neural networks on a GPU, we typically use a lower-than-maximum precision, namely, 32-bit floating point operations (in fact, PyTorch uses 32-bit floats by default). In contrast, in conventional scientific computing, we typically use 64-bit floats. In general, a larger number of bits corresponds to a higher precision, which lowers the chance of errors accumulating during computations. 
 
 However, in deep learning, using 64-bit floating point operations is considered unnecessary and computationally expensive since 64-bit operations are generally more costly, and GPU hardware is also not optimized for 64-bit precision. So instead, 32-bit floating point operations (also known as single-precision) have become the standard for training deep neural networks on GPUs.
 
 
-## Technical Background on Floating-point Representation
+### Technical Background on Floating-point Representation
 
 In the context of floating-point numbers, “bits” refer to the binary digits used to represent a number in a computer’s memory. In floating-point representation, numbers are stored in a combination of three parts: the sign, the exponent (the power number of 2), and the significand (faction value).
 
@@ -55,12 +40,12 @@ There are three popular floating point formats
 - BFloat16 (Brain Floating Point): sign 1, exponent 8 and fraction 7 bit.
 
 
-### Float32 vs Float16
+#### Float32 vs Float16
 
 Float16 uses three fewer bits for the exponent and 13 fewer bits for the fractional value: it represent a narrower range of numbers with less precisions.
 
 
-### Float32 vs Float16 vs BFloat16
+#### Float32 vs Float16 vs BFloat16
 
 Float32 and BFloat16 represent the same range of values as their exponents both have 8 bits. Compared to Float32 and Float16, BFloat16 has lowest precision. But in most applications, this reduced precision has minimal impact on modeling performance.
 
@@ -82,7 +67,7 @@ torch.finfo(torch.bfloat16)
 {% endhighlight %}
 
 
-# Mixed-Precision Training
+## Mixed-Precision Training
 
 Instead of running all parameters and operations on Float16, we switch between 32-bit and 16-bit operations during training, hence, the term “mixed” precision.
 - step 1: convert 32-bit weights to 16-bit weights of neworks, for faster computation.
@@ -93,7 +78,7 @@ Instead of running all parameters and operations on Float16, we switch between 3
 Therefore, we have one copy of model weight and gradient in 16-bit; one copy of gradient and optimizer in 32-bit.
 
 
-# Reference 
+## Reference 
 
 - [Accelerating Large Language Models with Mixed-Precision Techniques](https://sebastianraschka.com/blog/2023/llm-mixed-precision-copy.html)
 - [Github - LLM-Travel](https://github.com/Glanvery/LLM-Travel)
