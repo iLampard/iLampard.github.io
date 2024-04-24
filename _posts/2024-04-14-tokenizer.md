@@ -39,8 +39,8 @@ _styles: >
 
 
    
-# Background
-## What is Tokenizer
+## Background
+### What is Tokenizer
 
 A tokenizer is in charge of preparing the inputs for a model. It is used to split the text into tokens available in the predefined vocabulary and convert tokens strings to ids and back. 
 
@@ -61,11 +61,11 @@ tokenizer("I have an egg!")["input_ids"]
 
 {% endhighlight %}
 
-## Impact of Language on Tokenization
+### Impact of Language on Tokenization
 
 Text written in English will almost always result in less tokens than the equivalent text in non-English languages. Most western languages, using the Latin alphabet, typically tokenize around words and punctuations. In contrast, logographic systems like Chinese often treat each character as a distinct token, leading to higher token counts.
 
-### GPT-2 Tokenizer: English vs Chinese vs Python Code
+#### GPT-2 Tokenizer: English vs Chinese vs Python Code
 
 {% highlight python linenos %}
 
@@ -106,7 +106,7 @@ len(tokenizer(code)["input_ids"])
 {% endhighlight %}
 
 
-## GPT-2 vs GPT-4 tokenizer
+### GPT-2 vs GPT-4 tokenizer
 
 
 {% highlight python linenos %}
@@ -125,9 +125,9 @@ Compared to GPT-2, GPT-4
 - the vocab size is larger. The size of embedding table is larger and the cost of softmax operations grows as well. Vocabulary size of GPT-4 vs GPT-2: 100,256 vs 50,257.
 
 
-# Build a Tokenizer
+## Build a Tokenizer
 
-## General Mechanism of Tokenization Process
+### General Mechanism of Tokenization Process
 
 A few concept:
 - [unicode](https://en.wikipedia.org/wiki/Unicode): a text encoding standard defined for a large size of characters and scripts. Version 15.1 of the standard defines 149813 characters and 161 scripts used in various ordinary, literary, academic, and technical contexts.
@@ -160,7 +160,7 @@ list('I have an egg!'.encode('utf-16'))
 Based on the disucssion above, an ideal tokenizer is the one that supports a vacaburary with reasonaly large size which can be tuned as a hyperparameter while replying on the utf-8 encodings of strings.
 
 
-## Byte-level Byte Pair Encoding (BPE)
+### Byte-level Byte Pair Encoding (BPE)
 
 
 Byte-level BPE is the tokenization algorithm used in GPT-2. The idea is we start from byte sequence with a vocabulary size 256, iteratively find the byte pairs that occur the most, merge as new tokens and append to the vocabulary. 
@@ -171,7 +171,7 @@ To build up a BPE tokenizer, we start by intialize a training process.
 Note that the code is basically copied from the implementation at [minbpe](https://github.com/karpathy/minbpe).
 
 
-### Training: Merge by Frequency
+#### Training: Merge by Frequency
 
 
 As an example below, we start by encoding a sentence in utf-8. Note that after encoding in utf-8, some complex characters have been encoded into multiple bytes (up to four) and therefore the encoded sequence becomes longer.
