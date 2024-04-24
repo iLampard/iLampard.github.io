@@ -1,5 +1,5 @@
 ---
-layout: distill
+layout: post
 title: Understanding tokenizer from Andrej Karpathy's tutorial
 date: 2024-04-14 19:22:00
 description: a detailed note on llm tokenizer
