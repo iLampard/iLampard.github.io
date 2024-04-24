@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Mixed-precision training in LLM
-date: 2024-04-24 19:22:00
+date: 2024-04-23 19:22:00
 description: a note on mixed-precision training
 tags: pre-training code 
 categories: LLM
