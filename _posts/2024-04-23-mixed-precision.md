@@ -1,11 +1,12 @@
 ---
-layout: post
+layout: distill
 title: Mixed-precision training in LLM
 date: 2024-04-23 19:22:00
 description: a note on mixed-precision training
 tags: pre-training code 
 categories: LLM
 featured: true
+disqus_comments: true
 
 toc:
   - name: Background
@@ -22,11 +23,13 @@ toc:
 
 ## Background
 
-### Float32 and Float64 Precision
+### Float Precision in Deep Learning
 
+<!--
 When training deep neural networks on a GPU, we typically use a lower-than-maximum precision, namely, 32-bit floating point operations (in fact, PyTorch uses 32-bit floats by default). In contrast, in conventional scientific computing, we typically use 64-bit floats. In general, a larger number of bits corresponds to a higher precision, which lowers the chance of errors accumulating during computations. 
+-->
 
-However, in deep learning, using 64-bit floating point operations is considered unnecessary and computationally expensive since 64-bit operations are generally more costly, and GPU hardware is also not optimized for 64-bit precision. So instead, 32-bit floating point operations (also known as single-precision) have become the standard for training deep neural networks on GPUs.
+In the realm of deep learning, using 64-bit floating point operations is considered unnecessary and computationally expensive since 64-bit operations are generally more costly, and GPU hardware is also not optimized for 64-bit precision. So instead, 32-bit floating point operations (also known as single-precision) have become the standard for training deep neural networks on GPUs. In fact, PyTorch uses 32-bit floats by default.
 
 
 ### Technical Background on Floating-point Representation
@@ -51,7 +54,7 @@ Float32 and BFloat16 represent the same range of values as their exponents both 
 
 The code below reveals that the largest float32 number is 3.40282e+38; float16 numbers cannot exceed the value 65,504.
 
-{% highlight python linenos %}
+```python
 import torch
 
 torch.finfo(torch.float16)
@@ -64,7 +67,7 @@ torch.finfo(torch.float32)
 torch.finfo(torch.bfloat16)
 > finfo(resolution=0.01, min=-3.38953e+38, max=3.38953e+38, eps=0.0078125, smallest_normal=1.17549e-38, tiny=1.17549e-38, dtype=bfloat16)
 
-{% endhighlight %}
+```
 
 
 ## Mixed-Precision Training
