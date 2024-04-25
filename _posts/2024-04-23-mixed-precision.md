@@ -6,7 +6,6 @@ description: a note on mixed-precision training
 tags: pre-training code 
 categories: LLM
 featured: true
-disqus_comments: true
 
 toc:
   - name: Background
