@@ -10,7 +10,7 @@ featured: true
 toc:
   - name: Background
     subsections:
-    - name: Float32 and Float64 Precision
+    - name: Float Precision in Deep Learning
     - name: Technical Background on Floating-point Representation
   - name: Mixed-Precision Training
   - name: Reference
