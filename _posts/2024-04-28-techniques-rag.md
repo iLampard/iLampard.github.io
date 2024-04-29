@@ -230,9 +230,106 @@ final_rag_chain.invoke({"question":question})
 > Task decomposition for LLM agents involves parsing user requests into multiple tasks, with the LLM acting as the brain to organize and manage these tasks.
 ```
 
+
+### RAG Fusion
+
+How it works
+- Performs multi query transformation by translating the user’s queries into similar yet distinct through LLM. (same as MultiQueryRetriever)
+- Initialize the vector searches for the original query and its generated similar queries, multiple query generation. (same as MultiQueryRetriever)
+- Combine and refine all the query results using $RRF=\frac{1}{rank+k}$, where  $rank$ is the current rank of the documents sorted by distance, and $k$ is a constant smoothing factor that determines the weight given to the existing ranks.
+
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="https://miro.medium.com/v2/resize:fit:1344/format:webp/1*acPUjXj6kIeJHxV5Fgjf9g.png" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    Image Source: [Adrian H. Raudaschl](https://towardsdatascience.com/forget-rag-the-future-is-rag-fusion-1147298d8ad1)
+</div>
+
+
+```python
+from langchain.prompts import ChatPromptTemplate
+
+# RAG-Fusion: Related
+template = """You are a helpful assistant that generates multiple search queries based on a single input query. \n
+Generate multiple search queries related to: {question} \n
+Output (4 queries):"""
+prompt_rag_fusion = ChatPromptTemplate.from_template(template)
+```
+
+
+
+```python
+from langchain.load import dumps, loads
+
+def reciprocal_rank_fusion(results: list[list], k=60):
+    """ Reciprocal_rank_fusion that takes multiple lists of ranked documents 
+        and an optional parameter k used in the RRF formula """
+    
+    # Initialize a dictionary to hold fused scores for each unique document
+    fused_scores = {}
+
+    # Iterate through each list of ranked documents
+    for docs in results:
+        # Iterate through each document in the list, with its rank (position in the list)
+        for rank, doc in enumerate(docs):
+            # Convert the document to a string format to use as a key (assumes documents can be serialized to JSON)
+            doc_str = dumps(doc)
+            # If the document is not yet in the fused_scores dictionary, add it with an initial score of 0
+            if doc_str not in fused_scores:
+                fused_scores[doc_str] = 0
+            # Retrieve the current score of the document, if any
+            previous_score = fused_scores[doc_str]
+            # Update the score of the document using the RRF formula: 1 / (rank + k)
+            fused_scores[doc_str] += 1 / (rank + k)
+
+    # Sort the documents based on their fused scores in descending order to get the final reranked results
+    reranked_results = [
+        (loads(doc), score)
+        for doc, score in sorted(fused_scores.items(), key=lambda x: x[1], reverse=True)
+    ]
+
+    # Return the reranked results as a list of tuples, each containing the document and its fused score
+    return reranked_results
+
+retrieval_chain_rag_fusion = generate_queries | retriever.map() | reciprocal_rank_fusion
+docs = retrieval_chain_rag_fusion.invoke({"question": question})
+len(docs)
+> 6
+```
+
+```python
+from langchain_core.runnables import RunnablePassthrough
+
+# RAG
+template = """Answer the following question based on this context:
+
+{context}
+
+Question: {question}
+"""
+
+prompt = ChatPromptTemplate.from_template(template)
+
+final_rag_chain = (
+    {"context": retrieval_chain_rag_fusion, 
+     "question": itemgetter("question")} 
+    | prompt
+    | llm
+    | StrOutputParser()
+)
+
+final_rag_chain.invoke({"question":question})
+> Task decomposition for LLM agents involves breaking down large tasks into smaller, manageable subgoals.
+```
+
+
 ## Reference 
 
 - [LangChain - rag from scrach](https://github.com/langchain-ai/rag-from-scratch/tree/main)
+- [RAG-Fusion](https://github.com/Raudaschl/rag-fusion/blob/master/main.py)
 
 
 
