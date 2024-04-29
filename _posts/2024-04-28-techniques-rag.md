@@ -17,6 +17,9 @@ toc:
     - name: Indexing
     - name: Embedding Model
     - name: Retriever
+  - name: Advanced Techniques in Retrievers
+    subsections:
+    - name: Query Rewriting
   - name: Reference
 ---
 
@@ -74,14 +77,16 @@ text_splitter = RecursiveCharacterTextSplitter(
     is_separator_regex=False,
 )
 
-texts = text_splitter.create_documents([blog_docs[0].page_content])
-print(texts[0])
-> page_content='LLM Powered Autonomous Agents'
+# Make splits
+splits = text_splitter.split_documents(blog_docs)
 
-print(texts[1])
-> page_content='Date: June 23, 2023  |  Estimated Reading Time: 31 min  |  Author: Lilian Weng'
+print(splits[0])
+> page_content='LLM Powered Autonomous Agents' metadata={'source': 'https://lilianweng.github.io/posts/2023-06-23-agent/'}
 
-print(len(texts))
+print(splits[1])
+> page_content='Date: June 23, 2023  |  Estimated Reading Time: 31 min  |  Author: Lilian Weng' metadata={'source': 'https://lilianweng.github.io/posts/2023-06-23-agent/'}
+
+print(len(splits))
 > 611
 ```
 
@@ -125,18 +130,109 @@ Retriever vs vectorstore:
 
 
 ```python
-retriever = vectorstore.as_retriever(search_kwargs={"k": 1})
+retriever = vectorstore.as_retriever()
 
-docs = retriever.get_relevant_documents("What is title?")
+docs = retriever.get_relevant_documents("What is task decomposition for LLM agents?")
+
 print(docs)
-> [Document(page_content='"content": "Summary of areas that need clarification:\\n1. Specifics of the Super Mario game')]
+> [Document(page_content='Task decomposition can be done (1) by LLM with simple prompting like "Steps for XYZ.\\n1.", "What', metadata={'source': 'https://lilianweng.github.io/posts/2023-06-23-agent/'})]
+```
+
+## Advanced Techniques in Retrievers
+
+### Query Rewriting
+
+The input query can be ambiguous, causing an inevitab gap between the input text and the knowledge that is really needed to query.
+
+A straightforward way is to use LLM to generate queries from multiple perspective, a.k.a. multi-query transform. 
+
+The whole process: for a given user input query, it uses an LLM to generate multiple queries from different perspectives. For each query, it retrieves a set of relevant documents and takes the unique union across all queries to get a larger set of potentially relevant documents. Lastly, it feeds all the retrieved documents and let LLM to generate the answer.
+
+```python
+from langchain.prompts import ChatPromptTemplate
+
+# Multi Query - generate queries from different perspectives using a prompt
+template = """You are an AI language model assistant. Your task is to generate five
+different versions of the given user question to retrieve relevant documents from a vector
+database. By generating multiple perspectives on the user question, your goal is to help
+the user overcome some of the limitations of the distance-based similarity search.
+Provide these alternative questions separated by newlines. Original question: {question}"""
+prompt_perspectives = ChatPromptTemplate.from_template(template)
+
+from langchain_core.output_parsers import StrOutputParser
+from langchain_openai import ChatOpenAI
+
+import os
+os.environ['OPENAI_API_KEY'] = 'xxx'
+
+generate_queries = (
+    prompt_perspectives
+    | ChatOpenAI(temperature=0)
+    | StrOutputParser()
+    | (lambda x: x.split("\n"))
+)
+```
+
+By applying the multi-query approach, we retrieve more documents than the standard approach and run the retrieval process to get an anaswer.
+
+```python
+from langchain.load import dumps, loads
+
+def get_unique_union(documents: list[list]):
+    """ Unique union of retrieved docs """
+    # Flatten list of lists, and convert each Document to string
+    flattened_docs = [dumps(doc) for sublist in documents for doc in sublist]
+    # Get unique documents
+    unique_docs = list(set(flattened_docs))
+    # Return
+    return [loads(doc) for doc in unique_docs]
+
+# Retrieve process
+question = "What is task decomposition for LLM agents?"
+
+# pass each query to the retriever and remove the duplicate docs
+retrieval_chain = generate_queries | retriever.map() | get_unique_union
+
+# retrieve
+docs = retrieval_chain.invoke({"question":question})
+len(docs)
+> 6
 ```
 
 
 
+```python
+from operator import itemgetter
+from langchain_openai import ChatOpenAI
+from langchain_core.runnables import RunnablePassthrough
+
+# RAG
+template = """Answer the following question based on this context:
+
+{context}
+
+Question: {question}
+"""
+
+prompt = ChatPromptTemplate.from_template(template)
+
+llm = ChatOpenAI(temperature=0)
+
+final_rag_chain = (
+    {"context": retrieval_chain, 
+     "question": itemgetter("question")} 
+    | prompt
+    | llm
+    | StrOutputParser()
+)
+
+final_rag_chain.invoke({"question":question})
+> Task decomposition for LLM agents involves parsing user requests into multiple tasks, with the LLM acting as the brain to organize and manage these tasks.
+```
+
 ## Reference 
 
-- [LangChain - rag from scrach](https://sebastianraschka.com/blog/2023/llm-mixed-precision-copy.html](https://github.com/langchain-ai/rag-from-scratch/tree/main)
+- [LangChain - rag from scrach](https://github.com/langchain-ai/rag-from-scratch/tree/main)
 
 
 
