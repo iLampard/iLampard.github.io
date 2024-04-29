@@ -20,6 +20,7 @@ toc:
   - name: Advanced Techniques in Retrievers
     subsections:
     - name: Query Rewriting
+    - name: RAG Fusion
   - name: Reference
 ---
 
@@ -245,7 +246,7 @@ How it works
     </div>
 </div>
 <div class="caption">
-    Image Source: [Adrian H. Raudaschl](https://towardsdatascience.com/forget-rag-the-future-is-rag-fusion-1147298d8ad1)
+    Image Source: <a href="https://towardsdatascience.com/forget-rag-the-future-is-rag-fusion-1147298d8ad1">Adrian H. Raudaschl</a> 
 </div>
 
 
