@@ -21,6 +21,7 @@ toc:
     subsections:
     - name: Query Rewriting
     - name: RAG Fusion
+    - name: Step Back Prompting
   - name: Reference
 ---
 
