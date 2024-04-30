@@ -327,6 +327,109 @@ final_rag_chain.invoke({"question":question})
 ```
 
 
+### Step Back Prompting
+
+The work of `Step Back Prompting` explores
+how LLMs can tackle complex tasks involving many low-level details through a two-step process of abstraction-and-reasoning. 
+- The first step is to show LLMs how to step back through in-context
+learning – prompting them to derive high-level abstractions such as concepts and principles for
+a specific example. 
+- The second step is to leverage the reasoning ability to reason on top of the
+high-level concepts and principles.
+
+
+The details can be found the paper [TAKE A STEP BACK](https://arxiv.org/pdf/2310.06117).
+
+
+In the following code, we setup a prompting chain to do the abstraction first.
+```python
+# Few Shot Examples to show how to abstract the question
+from langchain_core.prompts import ChatPromptTemplate, FewShotChatMessagePromptTemplate
+examples = [
+    {
+        "input": "Could the members of The Police perform lawful arrests?",
+        "output": "what can the members of The Police do?", # abstraction
+    },
+    {
+        "input": "Jan Sindel’s was born in what country?",
+        "output": "what is Jan Sindel’s personal history?", # abstraction
+    },
+]
+# We now transform these to example messages
+example_prompt = ChatPromptTemplate.from_messages(
+    [
+        ("human", "{input}"),
+        ("ai", "{output}"),
+    ]
+)
+few_shot_prompt = FewShotChatMessagePromptTemplate(
+    example_prompt=example_prompt,
+    examples=examples,
+)
+prompt = ChatPromptTemplate.from_messages(
+    [
+        (
+            "system",
+            """You are an expert at world knowledge. Your task is to step back and paraphrase a question to a more generic step-back question, which is easier to answer. Here are a few examples:""",
+        ),
+        # Few shot examples
+        few_shot_prompt,
+        # New question
+        ("user", "{question}"),
+    ]
+)
+```
+
+Then we can see how it abstract the question "What is task decomposition for LLM agents?".
+
+```python
+generate_queries_step_back = prompt | ChatOpenAI(temperature=0) | StrOutputParser()
+question = "What is task decomposition for LLM agents?"
+generate_queries_step_back.invoke({"question": question})
+> What is task decomposition in general?
+```
+
+
+```python
+
+from langchain_core.runnables import RunnableLambda
+
+# Response prompt 
+response_prompt_template = """You are an expert of world knowledge. I am going to ask you a question. Your response should be comprehensive and not contradicted with the following context if they are relevant. Otherwise, ignore them if they are not relevant.
+
+# {normal_context}
+# {step_back_context}
+
+# Original Question: {question}
+# Answer:"""
+response_prompt = ChatPromptTemplate.from_template(response_prompt_template)
+
+chain = (
+    {
+        # Retrieve context using the normal question
+        "normal_context": RunnableLambda(lambda x: x["question"]) | retriever,
+        # Retrieve context using the step-back question
+        "step_back_context": generate_queries_step_back | retriever,
+        # Pass on the question
+        "question": lambda x: x["question"],
+    }
+    | response_prompt
+    | ChatOpenAI(temperature=0)
+    | StrOutputParser()
+)
+
+chain.invoke({"question": question})
+
+> Task decomposition for LLM agents refers to the process of breaking down complex tasks into smaller, more manageable subtasks that can be easily understood and executed by the large language model (LLM). This decomposition allows the LLM to effectively parse user requests and plan out the necessary steps to accomplish the overall task.
+
+In the context of LLM-powered autonomous agent systems, task decomposition is a crucial component of the overall workflow. The LLM serves as the brain of the system, parsing user requests and breaking them down into multiple tasks through task planning. This process enables the agent to efficiently handle a wide range of tasks and provide accurate responses to user queries.
+
+Additionally, task decomposition with LLM involves simple prompting techniques, such as providing specific steps for a task (e.g., "Steps for XYZ. 1.") to guide the model in understanding and executing the task effectively. By breaking down tasks into smaller subgoals, the agent can navigate complex tasks more efficiently and provide more accurate and relevant responses to user inputs.
+
+Overall, task decomposition for LLM agents plays a crucial role in enhancing the performance and capabilities of autonomous agent systems by enabling effective task planning, model selection, and task execution. It allows the agent to handle a diverse range of tasks and provide intelligent responses to user queries, making it a key component in the development of advanced AI systems.
+```
+
+
 ## Reference 
 
 - [LangChain - rag from scrach](https://github.com/langchain-ai/rag-from-scratch/tree/main)
