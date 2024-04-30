@@ -422,11 +422,11 @@ chain.invoke({"question": question})
 
 > Task decomposition for LLM agents refers to the process of breaking down complex tasks into smaller, more manageable subtasks that can be easily understood and executed by the large language model (LLM). This decomposition allows the LLM to effectively parse user requests and plan out the necessary steps to accomplish the overall task.
 
-In the context of LLM-powered autonomous agent systems, task decomposition is a crucial component of the overall workflow. The LLM serves as the brain of the system, parsing user requests and breaking them down into multiple tasks through task planning. This process enables the agent to efficiently handle a wide range of tasks and provide accurate responses to user queries.
+> In the context of LLM-powered autonomous agent systems, task decomposition is a crucial component of the overall workflow...
 
-Additionally, task decomposition with LLM involves simple prompting techniques, such as providing specific steps for a task (e.g., "Steps for XYZ. 1.") to guide the model in understanding and executing the task effectively. By breaking down tasks into smaller subgoals, the agent can navigate complex tasks more efficiently and provide more accurate and relevant responses to user inputs.
+> Additionally, task decomposition with LLM involves simple prompting techniques, such as providing specific steps for a task (e.g., "Steps for XYZ. 1.") to guide the model in understanding and executing the task effectively...
 
-Overall, task decomposition for LLM agents plays a crucial role in enhancing the performance and capabilities of autonomous agent systems by enabling effective task planning, model selection, and task execution. It allows the agent to handle a diverse range of tasks and provide intelligent responses to user queries, making it a key component in the development of advanced AI systems.
+> Overall, task decomposition for LLM agents plays a crucial role in enhancing the performance and capabilities of autonomous agent systems by enabling effective task planning, model selection, and task execution...
 ```
 
 
