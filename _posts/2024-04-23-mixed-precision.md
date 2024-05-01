@@ -90,8 +90,12 @@ The training process typically involves four steps:
   
 Now the mixed precision method now has been the state-of-the-art approach to train LLMs on the current generation of NVIDIA GPUs.
 
+## Memery Consumption Estimation in Mixed-Precision Training
 
-### Estimation of Memory Consumption of Model States
+During model training, most of the memory is consumed by `model states`, i.e., tensors comprising of optimizer states, gradients, and parameters. Besides these model states, the rest of the memory is consumed by activations, temporary buffers and fragmented memory which is called `residual states`.
+
+
+### Memory Consumption Estimation of Model States
 
 <!--
 - `parameters` and `activations` are stored as fp16, enabling the use of the high throughput tensor core units on these GPUs. During mixed-precision training, both the forward and backward propagation are performed using fp16 weights and activations.
