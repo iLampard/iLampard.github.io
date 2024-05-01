@@ -37,19 +37,19 @@ In the context of floating-point numbers, “bits” refer to the binary digits 
 
 
 There are three popular floating point formats
-- Float32: sign 1 bit, exponent 8 bit and fraction 23 bit.
-- Float16: sign 1 bit, exponent 5 bit and fraction 10 bit.
-- BFloat16 (Brain Floating Point): sign 1, exponent 8 and fraction 7 bit.
+- Float32 (fp32): sign 1 bit, exponent 8 bit and fraction 23 bit, 4 bytes.
+- Float16 (fp16): sign 1 bit, exponent 5 bit and fraction 10 bit, 2 bytes.
+- BFloat16 (Brain Floating Point, bf16): sign 1, exponent 8 and fraction 7 bit, 2 bytes.
 
 
-#### Float32 vs Float16
+#### FP32 vs FP16
 
-Float16 uses three fewer bits for the exponent and 13 fewer bits for the fractional value: it represent a narrower range of numbers with less precisions.
+fp16 uses three fewer bits for the exponent and 13 fewer bits for the fractional value: it represent a narrower range of numbers with less precisions.
 
 
-#### Float32 vs Float16 vs BFloat16
+#### FP32 vs FP16 vs BF16
 
-Float32 and BFloat16 represent the same range of values as their exponents both have 8 bits. Compared to Float32 and Float16, BFloat16 has lowest precision. But in most applications, this reduced precision has minimal impact on modeling performance.
+fp32 and fp16 represent the same range of values as their exponents both have 8 bits. Compared to fp32 and fp16, bf32 has lowest precision. But in most applications, this reduced precision has minimal impact on modeling performance.
 
 The code below reveals that the largest float32 number is 3.40282e+38; float16 numbers cannot exceed the value 65,504.
 
@@ -68,19 +68,54 @@ torch.finfo(torch.bfloat16)
 
 ```
 
-
 ## Mixed-Precision Training
 
-Instead of running all parameters and operations on Float16, we switch between 32-bit and 16-bit operations during training, hence, the term “mixed” precision.
-- step 1: convert 32-bit weights to 16-bit weights of neworks, for faster computation.
-- step 2: compute gradient using 16-bit precision. 
-- step 3: convert 16-bit gradint to 32-bit gradient to maintain numerical stability.
-- step 4: multiplied by learning rate and update weight in 32-bit precision.
+Instead of running all parameters and operations on fp16, we switch between fp32 and fp16 operations during training, hence, the term “mixed” precision.
 
-Therefore, we have one copy of model weight and gradient in 16-bit; one copy of gradient and optimizer in 32-bit.
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="https://sebastianraschka.com/images/blog/2023/llm-mixed-precision/mixed-training.png" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    Image Source: <a href="https://sebastianraschka.com/blog/2023/llm-mixed-precision-copy.html">Mixed-Precision Training Mechanics</a> 
+</div>
+
+The training process typically involves four steps:
+- step 1: convert fp32 weights to fp16 weights of neworks, for faster computation.
+- step 2: compute gradient using fp16 precision. 
+- step 3: convert fp16 gradient to fp32 gradient to maintain numerical stability.
+- step 4: multiplied by learning rate and update weight in fp32 precision.
+  
+Now the mixed precision method now has been the state-of-the-art approach to train LLMs on the current generation of NVIDIA GPUs.
+
+
+### Estimation of Memory Consumption of Model States
+
+<!--
+- `parameters` and `activations` are stored as fp16, enabling the use of the high throughput tensor core units on these GPUs. During mixed-precision training, both the forward and backward propagation are performed using fp16 weights and activations.
+- To effectively compute and apply the updates at the end of the backward propagation, the mixed-precision `optimizer` keeps an fp32 copy of the parameters as well as an fp32 copy of all `the other optimizer states`.
+-->
+
+
+Assume we train a model with $\textPsi$ parameters using Adam. This requires to 
+- hold an fp16 copy of the `parameters` and `gradients`, with memory requirements of $2\textPsi$ and $2\textPsi$ bytes respectively.
+- hold the optimizer states: an fp32 copy of the `parameters`, `momentum` and `variance`, with memory requirements of $4\textPsi$, $4\textPsi$, and $4\textPsi$ bytes, respectively.
+
+In total, this results in $2\textPsi + 2\textPsi + 3*4\textPsi = 16\textPsi$ bytes of memory requirement. 
+
+To `train` a model such as Mistral-7B-FP16 with 7 Billion parameters, this leads to a memory requirement of at least 24 GB: $7 * 1,000 * 1,000 * 1,000 / 1024 / 1024 / 1024 * 16 \approx 112G$ <d-footnote>For estimation purposes, we simple make $1,000 * 1,000 * 1,000 / 1024 / 1024 / 1024 = 1$.</d-footnote>.
+
+To `infer` such a model, it requires a memory of $$ GB: $7 * 1,000 * 1,000 * 1,000 / 1024 / 1024 / 1024 * 2 \approx 14G$.
+
+
+ 
 
 
 ## Reference 
 
 - [Accelerating Large Language Models with Mixed-Precision Techniques](https://sebastianraschka.com/blog/2023/llm-mixed-precision-copy.html)
 - [Github - LLM-Travel](https://github.com/Glanvery/LLM-Travel)
+- [ZeRO: Memory Optimizations Toward Training Trillion Parameter Models](https://arxiv.org/pdf/1910.02054v3)
+- [Some basic knowledge of LLM: Parameters and Memory Estimation](https://medium.com/@baicenxiao/some-basic-knowledge-of-llm-parameters-and-memory-estimation-b25c713c3bd8)
