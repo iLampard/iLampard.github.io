@@ -100,14 +100,14 @@ Now the mixed precision method now has been the state-of-the-art approach to tra
 
 
 Assume we train a model with $\textPsi$ parameters using Adam. This requires to 
-- hold an fp16 copy of the `parameters` and `gradients`, with memory requirements of $2\textPsi$ and $2\textPsi$ bytes respectively.
-- hold the optimizer states: an fp32 copy of the `parameters`, `momentum` and `variance`, with memory requirements of $4\textPsi$, $4\textPsi$, and $4\textPsi$ bytes, respectively.
+- hold an fp16 copy of the `parameters` and `gradients`, with memory requirements of $2\Uppsi$ and $2\Uppsi$ bytes respectively.
+- hold the optimizer states: an fp32 copy of the `parameters`, `momentum` and `variance`, with memory requirements of $4\Uppsi$, $4\Uppsi$, and $4\Uppsi$ bytes, respectively.
 
-In total, this results in $2\textPsi + 2\textPsi + 3*4\textPsi = 16\textPsi$ bytes of memory requirement. 
+In total, this results in $2 \Uppsi + 2\Uppsi + 3*4\Uppsi = 16\Uppsi$ bytes of memory requirement. 
 
 To `train` a model such as Mistral-7B-FP16 with 7 Billion parameters, this leads to a memory requirement of at least 24 GB: $7 * 1,000 * 1,000 * 1,000 / 1024 / 1024 / 1024 * 16 \approx 112G$ <d-footnote>For estimation purposes, we simple make $1,000 * 1,000 * 1,000 / 1024 / 1024 / 1024 = 1$.</d-footnote>.
 
-To `infer` such a model, it requires a memory of $$ GB: $7 * 1,000 * 1,000 * 1,000 / 1024 / 1024 / 1024 * 2 \approx 14G$.
+To `infer` such a model, it requires a memory of $14$ GB: $7 * 1,000 * 1,000 * 1,000 / 1024 / 1024 / 1024 * 2 \approx 14G$.
 
 
  
