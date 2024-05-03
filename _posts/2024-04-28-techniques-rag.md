@@ -458,9 +458,9 @@ Consider the supervised fine-tuning (SFT) setting for a Question-Answer dataset.
 - 0-shot Inference: $Q \rightarrow A$.
 - RAG Inference: $Q + D \rightarrow A$.
 
-In RAFT, we prepare the training data such that each data point contains a question ($Q$), a set of documents ($D_k$), and a corresponding Chain-of-though style answer ($A_{*}$) generated from one of the document ($D_{*}$), a.k.a., oracle document while the non-relevant documents are ‘distractors’ ($D_i$).
+In RAFT, we prepare the training data such that each data point contains a question ($Q$), a set of documents ($D_k$), and a corresponding Chain-of-though style answer ($A_*$) generated from one of the document ($D_*$), a.k.a., oracle document while the non-relevant documents are ‘distractors’ ($D_i$).
 - Train:
-  - $P \%$ of data: $Q + D_{*} + D_2 + . . . + D_k \rightarrow A_{*}$
+  - $P \%$ of data: $Q + D_* + D_2 + . . . + D_k \rightarrow A_*$
   - $(1 − P) \%$ of data: $Q + D_1 + D_2 + . . . + D_k \rightarrow A_{*}$
 - RAG Inference: $Q + D \rightarrow A$.
 
