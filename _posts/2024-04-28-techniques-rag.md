@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: distill
 title: Basic and Advanced Techniques on RAG
 date: 2024-04-28 00:20:00
 description: detailed techniques on RAG, with LangChain code examples
@@ -7,9 +7,25 @@ tags: RAG code
 categories: LLM
 featured: true
 
+# toc:
+#  beginning: true
+
 toc:
-  beginning: true
-  
+  - name: Introduction to RAG
+    subsections:
+    - name: Indexing
+    - name: Embedding Model
+    - name: Retriever
+  - name: Advanced Techniques in Retrievers
+    subsections:
+    - name: Query Rewriting
+    - name: RAG Fusion
+    - name: Step Back Prompting
+  - name: Evaluation
+  - name: Reference
+
+
+ 
 # chart:
   # vega_lite: true
 
@@ -422,10 +438,42 @@ chain.invoke({"question": question})
 ```
 
 
+### Corrective RAG 
+
+[Corrective Retrieval Augmented Generation](https://arxiv.org/abs/2401.15884) (CRAG) is proposed to enhance the robustness of generation when errors in retrieval are introduced.
+
+Part of CRAG, is a `lightweight trainable retrieval evaluator` which assesses the overall quality of retrieved documents, providing a confidence degree to trigger different knowledge retrieval actions.
+- The retrieval evaluator quantifies a confidence degree, enabling different knowledge retrieval actions such as `Correct`, `Incorrect`, `Ambiguous` based on the assessment.
+- For `Incorrect` and `Ambiguous` cases, large-scale `web searches` are integrated strategically to address limitations in static and limited corpora, aiming to provide a broader and more diverse set of information.
+
+
+
+## Evaluation 
+
+Langchain provides various types of RAG eval that users of typically interested in:
+- Response compared against reference answer: metrics like correctness measure "how similar/correct is the answer, relative to a ground-truth label"
+- Response compared against retrieved docs: metrics like faithfulness, hallucinations, etc. measure "to what extent does the generated response agree with the retrieved context"
+- Retrieved docs compared against input: metrics like score @ k, mean reciprocal rank, NDCG, etc. measure "how good are my retrieved results for this query"
+  
+
+| Target | Explain | Metrics |
+| :----------- | :------------: | ------------: |
+|  Answer correctness |    how similar/correct is the answer, relative to a ground-truth label    |      accuracy-ratio |
+|  Answer faithfulness |    to what extent does the generated response agree with the retrieved context    |  faithfulness/hallucination ratio |
+|  Retro relevance |    how good are the retrieved results for this query    |  score@k, mean reciprocal rank |
+
+
+
+The full code snippet can be found at [LangSmith-RAG-Eval](https://docs.smith.langchain.com/cookbook/testing-examples/rag_eval).
+
+
+
+
 ## Reference 
 
 - [LangChain - rag from scrach](https://github.com/langchain-ai/rag-from-scratch/tree/main)
 - [RAG-Fusion](https://github.com/Raudaschl/rag-fusion/blob/master/main.py)
+- [CRAG](https://arxiv.org/abs/2401.15884)
 
 
 
