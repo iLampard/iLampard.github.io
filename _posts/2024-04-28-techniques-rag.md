@@ -21,6 +21,7 @@ toc:
     - name: Query Rewriting
     - name: RAG Fusion
     - name: Step Back Prompting
+    - name: Corrective RAG
   - name: Evaluation
   - name: Reference
 
@@ -447,6 +448,7 @@ Part of CRAG, is a `lightweight trainable retrieval evaluator` which assesses th
 - For `Incorrect` and `Ambiguous` cases, large-scale `web searches` are integrated strategically to address limitations in static and limited corpora, aiming to provide a broader and more diverse set of information.
 
 
+### Retrieval Augmented FineTuning (RAFT)
 
 ## Evaluation 
 
