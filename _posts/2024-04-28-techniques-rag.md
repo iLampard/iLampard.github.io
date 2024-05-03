@@ -1,5 +1,5 @@
 ---
-layout: distill
+layout: post
 title: Basic and Advanced Techniques on RAG
 date: 2024-04-28 00:20:00
 description: detailed techniques on RAG, with LangChain code examples
@@ -7,22 +7,13 @@ tags: RAG code
 categories: LLM
 featured: true
 
+toc:
+  beginning: true
+  
 # chart:
   # vega_lite: true
 
 
-toc:
-  - name: Introduction to RAG
-    subsections:
-    - name: Indexing
-    - name: Embedding Model
-    - name: Retriever
-  - name: Advanced Techniques in Retrievers
-    subsections:
-    - name: Query Rewriting
-    - name: RAG Fusion
-    - name: Step Back Prompting
-  - name: Reference
 ---
 
 
