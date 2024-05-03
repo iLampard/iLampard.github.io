@@ -22,6 +22,7 @@ toc:
     - name: RAG Fusion
     - name: Step Back Prompting
     - name: Corrective RAG
+    - name: RAFT
   - name: Evaluation
   - name: Reference
 
@@ -449,6 +450,33 @@ Part of CRAG, is a `lightweight trainable retrieval evaluator` which assesses th
 
 
 ### Retrieval Augmented FineTuning (RAFT)
+
+Different from classical approaches, [RAFT](https://arxiv.org/pdf/2403.10131) combines RAG and Supervised FineTuning (SFT) at both train and test time.
+
+Consider the supervised fine-tuning (SFT) setting for a Question-Answer dataset. The formulation consists of the Dataset (D) from which a set of Question (Q) and corresponding answer (A) pairs are derived or already available.
+- Train: $Q \rightarrow A$.
+- 0-shot Inference: $Q \rightarrow A$.
+- RAG Inference: $Q + D \rightarrow A$.
+
+In RAFT, we prepare the training data such that each data point contains a question ($Q$), a set of documents ($D_k$), and a corresponding Chain-of-though style answer ($A_{*}$) generated from one of the document ($D_{*}$), a.k.a., oracle document while the non-relevant documents are ‘distractors’ ($D_i$).
+- Train:
+  - $P \%$ of data: $Q + D_{*} + D_2 + . . . + D_k \rightarrow A_{*}$
+  - $(1 − P) \%$ of data: $Q + D_1 + D_2 + . . . + D_k \rightarrow A_{*}$
+- RAG Inference: $Q + D \rightarrow A$.
+
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="https://gorilla.cs.berkeley.edu/assets/img/blog_post_9_RAFT.png" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    Image Source: <a href="https://gorilla.cs.berkeley.edu/blogs/9_raft.html">RAFT Github Repo</a> 
+</div>
+
+
+
+
 
 ## Evaluation 
 
