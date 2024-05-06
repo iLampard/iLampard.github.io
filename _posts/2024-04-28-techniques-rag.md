@@ -16,13 +16,13 @@ toc:
     - name: Indexing
     - name: Embedding Model
     - name: Retriever
-  - name: Advanced Techniques in Retrievers
+  - name: Advanced Techniques in RAG
     subsections:
     - name: Pre-retrieval Optimization - Query Rewriting
     - name: Pre-retrieval Optimization - Step Back Prompting
     - name: Post-retrieval Optimization - RAG Fusion
     - name: Post-retrieval Optimization - Corrective RAG
-    - name: RAFT
+    - name: Retrieval Augmented FineTuning (RAFT)
   - name: Evaluation
   - name: Reference
 
