@@ -18,10 +18,10 @@ toc:
     - name: Retriever
   - name: Advanced Techniques in Retrievers
     subsections:
-    - name: Query Rewriting
-    - name: RAG Fusion
-    - name: Step Back Prompting
-    - name: Corrective RAG
+    - name: Pre-retrieval Optimization: Query Rewriting
+    - name: Pre-retrieval Optimization: Step Back Prompting
+    - name: Post-retrieval Optimization: RAG Fusion
+    - name: Post-retrieval Optimization: Corrective RAG
     - name: RAFT
   - name: Evaluation
   - name: Reference
@@ -149,9 +149,25 @@ print(docs)
 > [Document(page_content='Task decomposition can be done (1) by LLM with simple prompting like "Steps for XYZ.\\n1.", "What', metadata={'source': 'https://lilianweng.github.io/posts/2023-06-23-agent/'})]
 ```
 
-## Advanced Techniques in Retrievers
+## Advanced Techniques in RAG
 
-### Query Rewriting
+The advanced RAG paradigm comprises of a set of techniques targeted at addressing known limitations of naive RAG. In comparison, the advanced RAG techniques can be categorized into pre-retrieval, retrieval, and post-retrieval optimizations.
+- Pre-retrieval optimization focus on data `indexing optimizations` as well as `query optimizations`.
+- Retrieval optimization revolves around the embedding models.
+- Post-retrieval optimization techniques include `prompt compression`, which reduces the overall prompt length by removing irrelevant and highlighting important context and `re-ranking`, which uses machine learning models to recalculate the relevance scores of the retrieved contexts.
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*8z-QRadKewNmos0J_4TNAQ.png" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    Image Source: <a href="https://towardsdatascience.com/advanced-retrieval-augmented-generation-from-theory-to-llamaindex-implementation-4de1464a9930">Advanced Retrieval-Augmented Generation</a> 
+</div>
+
+
+
+### Pre-retrieval Optimization: Query Rewriting
 
 The input query can be ambiguous, causing an inevitab gap between the input text and the knowledge that is really needed to query.
 
@@ -241,103 +257,7 @@ final_rag_chain.invoke({"question":question})
 > Task decomposition for LLM agents involves parsing user requests into multiple tasks, with the LLM acting as the brain to organize and manage these tasks.
 ```
 
-
-### RAG Fusion
-
-How it works
-- Performs multi query transformation by translating the user’s queries into similar yet distinct through LLM. (same as MultiQueryRetriever)
-- Initialize the vector searches for the original query and its generated similar queries, multiple query generation. (same as MultiQueryRetriever)
-- Combine and refine all the query results using $RRF=\frac{1}{rank+k}$, where  $rank$ is the current rank of the documents sorted by distance, and $k$ is a constant smoothing factor that determines the weight given to the existing ranks.
-
-
-<div class="row mt-3">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="https://miro.medium.com/v2/resize:fit:1344/format:webp/1*acPUjXj6kIeJHxV5Fgjf9g.png" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    Image Source: <a href="https://towardsdatascience.com/forget-rag-the-future-is-rag-fusion-1147298d8ad1">Adrian H. Raudaschl</a> 
-</div>
-
-
-```python
-from langchain.prompts import ChatPromptTemplate
-
-# RAG-Fusion: Related
-template = """You are a helpful assistant that generates multiple search queries based on a single input query. \n
-Generate multiple search queries related to: {question} \n
-Output (4 queries):"""
-prompt_rag_fusion = ChatPromptTemplate.from_template(template)
-```
-
-
-
-```python
-from langchain.load import dumps, loads
-
-def reciprocal_rank_fusion(results: list[list], k=60):
-    """ Reciprocal_rank_fusion that takes multiple lists of ranked documents 
-        and an optional parameter k used in the RRF formula """
-    
-    # Initialize a dictionary to hold fused scores for each unique document
-    fused_scores = {}
-
-    # Iterate through each list of ranked documents
-    for docs in results:
-        # Iterate through each document in the list, with its rank (position in the list)
-        for rank, doc in enumerate(docs):
-            # Convert the document to a string format to use as a key (assumes documents can be serialized to JSON)
-            doc_str = dumps(doc)
-            # If the document is not yet in the fused_scores dictionary, add it with an initial score of 0
-            if doc_str not in fused_scores:
-                fused_scores[doc_str] = 0
-            # Retrieve the current score of the document, if any
-            previous_score = fused_scores[doc_str]
-            # Update the score of the document using the RRF formula: 1 / (rank + k)
-            fused_scores[doc_str] += 1 / (rank + k)
-
-    # Sort the documents based on their fused scores in descending order to get the final reranked results
-    reranked_results = [
-        (loads(doc), score)
-        for doc, score in sorted(fused_scores.items(), key=lambda x: x[1], reverse=True)
-    ]
-
-    # Return the reranked results as a list of tuples, each containing the document and its fused score
-    return reranked_results
-
-retrieval_chain_rag_fusion = generate_queries | retriever.map() | reciprocal_rank_fusion
-docs = retrieval_chain_rag_fusion.invoke({"question": question})
-len(docs)
-> 6
-```
-
-```python
-from langchain_core.runnables import RunnablePassthrough
-
-# RAG
-template = """Answer the following question based on this context:
-
-{context}
-
-Question: {question}
-"""
-
-prompt = ChatPromptTemplate.from_template(template)
-
-final_rag_chain = (
-    {"context": retrieval_chain_rag_fusion, 
-     "question": itemgetter("question")} 
-    | prompt
-    | llm
-    | StrOutputParser()
-)
-
-final_rag_chain.invoke({"question":question})
-> Task decomposition for LLM agents involves breaking down large tasks into smaller, manageable subgoals.
-```
-
-
-### Step Back Prompting
+### Pre-retrieval Optimization: Step Back Prompting
 
 The work of `Step Back Prompting` explores
 how LLMs can tackle complex tasks involving many low-level details through a two-step process of abstraction-and-reasoning. 
@@ -439,8 +359,104 @@ chain.invoke({"question": question})
 > Overall, task decomposition for LLM agents plays a crucial role in enhancing the performance and capabilities of autonomous agent systems by enabling effective task planning, model selection, and task execution...
 ```
 
+### Post-retrieval Optimization: RAG Fusion
 
-### Corrective RAG 
+How it works
+- Performs multi query transformation by translating the user’s queries into similar yet distinct through LLM. (same as MultiQueryRetriever)
+- Initialize the vector searches for the original query and its generated similar queries, multiple query generation. (same as MultiQueryRetriever)
+- Combine and refine all the query results using $RRF=\frac{1}{rank+k}$, where  $rank$ is the current rank of the documents sorted by distance, and $k$ is a constant smoothing factor that determines the weight given to the existing ranks.
+
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="https://miro.medium.com/v2/resize:fit:1344/format:webp/1*acPUjXj6kIeJHxV5Fgjf9g.png" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    Image Source: <a href="https://towardsdatascience.com/forget-rag-the-future-is-rag-fusion-1147298d8ad1">Adrian H. Raudaschl</a> 
+</div>
+
+
+```python
+from langchain.prompts import ChatPromptTemplate
+
+# RAG-Fusion: Related
+template = """You are a helpful assistant that generates multiple search queries based on a single input query. \n
+Generate multiple search queries related to: {question} \n
+Output (4 queries):"""
+prompt_rag_fusion = ChatPromptTemplate.from_template(template)
+```
+
+
+
+```python
+from langchain.load import dumps, loads
+
+def reciprocal_rank_fusion(results: list[list], k=60):
+    """ Reciprocal_rank_fusion that takes multiple lists of ranked documents 
+        and an optional parameter k used in the RRF formula """
+    
+    # Initialize a dictionary to hold fused scores for each unique document
+    fused_scores = {}
+
+    # Iterate through each list of ranked documents
+    for docs in results:
+        # Iterate through each document in the list, with its rank (position in the list)
+        for rank, doc in enumerate(docs):
+            # Convert the document to a string format to use as a key (assumes documents can be serialized to JSON)
+            doc_str = dumps(doc)
+            # If the document is not yet in the fused_scores dictionary, add it with an initial score of 0
+            if doc_str not in fused_scores:
+                fused_scores[doc_str] = 0
+            # Retrieve the current score of the document, if any
+            previous_score = fused_scores[doc_str]
+            # Update the score of the document using the RRF formula: 1 / (rank + k)
+            fused_scores[doc_str] += 1 / (rank + k)
+
+    # Sort the documents based on their fused scores in descending order to get the final reranked results
+    reranked_results = [
+        (loads(doc), score)
+        for doc, score in sorted(fused_scores.items(), key=lambda x: x[1], reverse=True)
+    ]
+
+    # Return the reranked results as a list of tuples, each containing the document and its fused score
+    return reranked_results
+
+retrieval_chain_rag_fusion = generate_queries | retriever.map() | reciprocal_rank_fusion
+docs = retrieval_chain_rag_fusion.invoke({"question": question})
+len(docs)
+> 6
+```
+
+```python
+from langchain_core.runnables import RunnablePassthrough
+
+# RAG
+template = """Answer the following question based on this context:
+
+{context}
+
+Question: {question}
+"""
+
+prompt = ChatPromptTemplate.from_template(template)
+
+final_rag_chain = (
+    {"context": retrieval_chain_rag_fusion, 
+     "question": itemgetter("question")} 
+    | prompt
+    | llm
+    | StrOutputParser()
+)
+
+final_rag_chain.invoke({"question":question})
+> Task decomposition for LLM agents involves breaking down large tasks into smaller, manageable subgoals.
+```
+
+
+
+
+### Post-retrieval Optimization: Corrective RAG 
 
 [Corrective Retrieval Augmented Generation](https://arxiv.org/abs/2401.15884) (CRAG) is proposed to enhance the robustness of generation when errors in retrieval are introduced.
 
@@ -502,8 +518,11 @@ The full code snippet can be found at [LangSmith-RAG-Eval](https://docs.smith.la
 ## Reference 
 
 - [LangChain - rag from scrach](https://github.com/langchain-ai/rag-from-scratch/tree/main)
+- [DB-GPT: Empowering Database Interactions with Private Large Language Models](https://arxiv.org/abs/2312.17449)
+- [WeaverBird: Empowering Financial Decision-Making with Large Language Model, Knowledge Base, and Search Engine](https://arxiv.org/abs/2308.05361)
 - [RAG-Fusion](https://github.com/Raudaschl/rag-fusion/blob/master/main.py)
 - [CRAG](https://arxiv.org/abs/2401.15884)
+- [Advanced Retrieval-Augmented Generation: From Theory to LlamaIndex Implementation](https://towardsdatascience.com/advanced-retrieval-augmented-generation-from-theory-to-llamaindex-implementation-4de1464a9930)
 
 
 
