@@ -18,10 +18,10 @@ toc:
     - name: Retriever
   - name: Advanced Techniques in RAG
     subsections:
-    - name: Pre-retrieval Optimization - Query Rewriting
-    - name: Pre-retrieval Optimization - Step Back Prompting
-    - name: Post-retrieval Optimization - RAG Fusion
-    - name: Post-retrieval Optimization - Corrective RAG
+    - name: Pre-retrieval Optimization Query Rewriting
+    - name: Pre-retrieval Optimization Step Back Prompting
+    - name: Post-retrieval Optimization RAG Fusion
+    - name: Post-retrieval Optimization Corrective RAG
     - name: Retrieval Augmented FineTuning (RAFT)
   - name: Evaluation
   - name: Reference
@@ -167,7 +167,7 @@ The advanced RAG paradigm comprises of a set of techniques targeted at addressin
 
 
 
-### Pre-retrieval Optimization - Query Rewriting
+### Pre-retrieval Optimization Query Rewriting
 
 The input query can be ambiguous, causing an inevitab gap between the input text and the knowledge that is really needed to query.
 
@@ -257,7 +257,7 @@ final_rag_chain.invoke({"question":question})
 > Task decomposition for LLM agents involves parsing user requests into multiple tasks, with the LLM acting as the brain to organize and manage these tasks.
 ```
 
-### Pre-retrieval Optimization - Step Back Prompting
+### Pre-retrieval Optimization Step Back Prompting
 
 The work of `Step Back Prompting` explores
 how LLMs can tackle complex tasks involving many low-level details through a two-step process of abstraction-and-reasoning. 
@@ -359,7 +359,7 @@ chain.invoke({"question": question})
 > Overall, task decomposition for LLM agents plays a crucial role in enhancing the performance and capabilities of autonomous agent systems by enabling effective task planning, model selection, and task execution...
 ```
 
-### Post-retrieval Optimization - RAG Fusion
+### Post-retrieval Optimization RAG Fusion
 
 How it works
 - Performs multi query transformation by translating the user’s queries into similar yet distinct through LLM. (same as MultiQueryRetriever)
@@ -456,7 +456,7 @@ final_rag_chain.invoke({"question":question})
 
 
 
-### Post-retrieval Optimization - Corrective RAG 
+### Post-retrieval Optimization Corrective RAG 
 
 [Corrective Retrieval Augmented Generation](https://arxiv.org/abs/2401.15884) (CRAG) is proposed to enhance the robustness of generation when errors in retrieval are introduced.
 
