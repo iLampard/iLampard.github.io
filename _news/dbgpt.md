@@ -1,7 +1,7 @@
 ---
 layout: post
-date: 2024-04-07 08:59:00-0400
+date: 2024-06-01 08:59:00-0400
 inline: true
 ---
 
-[DB-GPT](https://arxiv.org/abs/2312.17449) released a [Demo](https://www.youtube.com/watch?v=n_8RI1ENyl4)
+[DB-GPT](https://arxiv.org/abs/2404.10209) accepted to [VLDB 2024](https://vldb.org/2024/). 
