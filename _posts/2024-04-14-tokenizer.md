@@ -17,6 +17,8 @@ toc:
     subsections:
     - name: General Mechanism of Tokenization Process
     - name: Byte-level Byte Pair Encoding (BPE)
+  - name: Reference 
+    
 
 _styles: >
   .fake-img {
@@ -223,6 +225,9 @@ chr(101),chr(32)
 {% endhighlight %}
 
 
+## Reference
+
+[Let's build the GPT Tokenizer](https://www.youtube.com/watch?v=zduSFxRajkE&t=4518s)
 
 <!---
 You can display diff code by using the regular markdown syntax:
