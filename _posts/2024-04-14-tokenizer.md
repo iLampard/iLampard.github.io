@@ -85,7 +85,7 @@ tokenizer("我有个鸡蛋")["input_ids"]
 
 After tokenization (e.g., using GPT-2 tokenizer), the length of non-English sequence is typically longer than the English counter-party. As a result, non-English sentence will be more likely to run out the contextual input that are fed into the model. This is one reason why early versions of GPT are not good at chating in non-English languages.
 
-For the code, the individual spaces corresponds to seperate tokens ('220'). Similar to the non-English sentence, the tokenized code sequence that are fed into the model has a lot of wasteful tokens, making the model harder to learn.
+For the code, the individual spaces correspond to seperate tokens ('220'). Similar to the non-English sentence, the tokenized code sequence fed into the model has a lot of wasteful tokens, making the model harder to learn.
 
 {% highlight python linenos %}
 code = '''
