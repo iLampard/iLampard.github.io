@@ -103,7 +103,7 @@ During model training, most of the memory is consumed by `model states`, i.e., t
 -->
 
 
-Assume we train a model with $\Uppsi$ parameters using Adam. This requires to 
+Assume we train a model with $\uppsi$ parameters using Adam. This requires to 
 - hold an fp16 copy of the `parameters` and `gradients`, with memory requirements of $2\Uppsi$ and $2\Uppsi$ bytes respectively.
 - hold the optimizer states: an fp32 copy of the `parameters`, `momentum` and `variance`, with memory requirements of $4\Uppsi$, $4\Uppsi$, and $4\Uppsi$ bytes, respectively.
 
