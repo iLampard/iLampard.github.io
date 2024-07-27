@@ -103,11 +103,13 @@ During model training, most of the memory is consumed by `model states`, i.e., t
 -->
 
 
-Assume we train a model with $\uppsi$ parameters using Adam. This requires to 
-- hold an fp16 copy of the `parameters` and `gradients`, with memory requirements of $2\Uppsi$ and $2\Uppsi$ bytes respectively.
+Assume we train a model with $N$ parameters using Adam. This requires to 
+- hold an fp16 copy of the `parameters` and `gradients`, with memory requirements of $2N$ and $2N$ bytes respectively.
 - hold the optimizer states: an fp32 copy of the `parameters`, `momentum` and `variance`, with memory requirements of $4\Uppsi$, $4\Uppsi$, and $4\Uppsi$ bytes, respectively.
 
-In total, this results in $2 \Uppsi + 2\Uppsi + 3*4\Uppsi = 16\Uppsi$ bytes of memory requirement. 
+In total, this results in $2 N + 2N + 3*4N = 16N$ bytes of memory requirement. 
+
+In inference, only the model parameters consum the memory, which results in $2N$ bytes of memory.
 
 To `train` a model such as Mistral-7B-FP16 with 7 Billion parameters, this leads to a memory requirement of at least 24 GB: $7 * 1,000 * 1,000 * 1,000 / 1024 / 1024 / 1024 * 16 \approx 112G$ <d-footnote>For estimation purposes, we simple make $1,000 * 1,000 * 1,000 / 1024 / 1024 / 1024 = 1$.</d-footnote>.
 
