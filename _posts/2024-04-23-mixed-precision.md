@@ -116,8 +116,6 @@ To `train` a model such as Mistral-7B-FP16 with 7 Billion parameters, this leads
 To `infer` such a model, it requires a memory of $14$ GB: $7 * 1,000 * 1,000 * 1,000 / 1024 / 1024 / 1024 * 2 \approx 14G$.
 
 
- 
-
 
 ## Reference 
 
