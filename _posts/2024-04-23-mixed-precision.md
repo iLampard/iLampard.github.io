@@ -41,6 +41,17 @@ There are three popular floating point formats
 - Float16 (fp16): sign 1 bit, exponent 5 bit and fraction 10 bit, 2 bytes.
 - BFloat16 (Brain Floating Point, bf16): sign 1, exponent 8 and fraction 7 bit, 2 bytes.
 
+| floating-point formats  | total bits   |  exp bit|  fraction bit  | range in numbers |  decimal precision  |
+|-------------------------|--------------|---------|--------| ---------------------------|-------------------|
+|  fp32                   | 32           |   8     |  23      |         ±10e^38 |    10-6       |
+|  fp16                   | 16           |   5     |  10      |         ±10e^4 |    10-3      |
+|  bf16                   | 16           |   8     |  7      |         ±10e^38 |    10-2       |
+|  int16                   | 16           |   15     |  0      |         ±10e^4 |    1       |
+|  int8                   | 8           |   7     |  0      |         ±10e^2 |    1       |
+|  int4                   | 4           |   3     |  0      |         ±10e^1 |    1       |
+
+For instance, if the Qwen2-72b model is stored in bf-16 format, it would require approximately 
+$72706203648 \times 16$ bits of memory, which translates to about $1163299258368$ bits, or roughly 135.4 GB.
 
 #### FP32 vs FP16
 
