@@ -37,18 +37,18 @@ In the context of floating-point numbers, “bits” refer to the binary digits 
 
 
 There are three popular floating point formats
-- Float32 (fp32): sign 1 bit, exponent 8 bit and fraction 23 bit, 4 bytes.
-- Float16 (fp16): sign 1 bit, exponent 5 bit and fraction 10 bit, 2 bytes.
-- BFloat16 (Brain Floating Point, bf16): sign 1, exponent 8 and fraction 7 bit, 2 bytes.
+- Float32 (FP32): sign 1 bit, exponent 8 bit and fraction 23 bit, 4 bytes.
+- Float16 (FP16): sign 1 bit, exponent 5 bit and fraction 10 bit, 2 bytes.
+- BFloat16 (Brain Floating Point, BF16): sign 1, exponent 8 and fraction 7 bit, 2 bytes.
 
 | floating-point formats  | total bits   |  exp bit|  fraction bit  | range in numbers |  decimal precision  |
 |-------------------------|--------------|---------|--------| ---------------------------|-------------------|
-|  fp32                   | 32           |   8     |  23      |         ±10e^38 |    10-6       |
-|  fp16                   | 16           |   5     |  10      |         ±10e^4 |    10-3      |
-|  bf16                   | 16           |   8     |  7      |         ±10e^38 |    10-2       |
-|  int16                   | 16           |   15     |  0      |         ±10e^4 |    1       |
-|  int8                   | 8           |   7     |  0      |         ±10e^2 |    1       |
-|  int4                   | 4           |   3     |  0      |         ±10e^1 |    1       |
+|  FP32                   | 32           |   8     |  23      |         ±10e^38 |    10-6       |
+|  FP16                   | 16           |   5     |  10      |         ±10e^4 |    10-3      |
+|  BF16                   | 16           |   8     |  7      |         ±10e^38 |    10-2       |
+|  INT16                   | 16           |   15     |  0      |         ±10e^4 |    1       |
+|  INT8                   | 8           |   7     |  0      |         ±10e^2 |    1       |
+|  INT4                   | 4           |   3     |  0      |         ±10e^1 |    1       |
 
 For instance, if the Qwen2-72b model is stored in bf-16 format, it would require approximately 
 $72706203648 \times 16$ bits of memory, which translates to about $1163299258368$ bits, or roughly 135.4 GB.
@@ -81,7 +81,7 @@ torch.finfo(torch.bfloat16)
 
 ## Mixed-Precision Training
 
-Instead of running all parameters and operations on fp16, we switch between fp32 and fp16 operations during training, hence, the term “mixed” precision.
+Instead of running all parameters and operations on FP16, we switch between FP32 and FP16 operations during training, hence, the term “mixed” precision.
 
 
 <div class="row mt-3">
@@ -94,11 +94,14 @@ Instead of running all parameters and operations on fp16, we switch between fp32
 </div>
 
 The training process typically involves four steps:
-- step 1: convert fp32 weights to fp16 weights of neworks, for faster computation.
-- step 2: compute gradient using fp16 precision. 
-- step 3: convert fp16 gradient to fp32 gradient to maintain numerical stability.
-- step 4: multiplied by learning rate and update weight in fp32 precision.
-  
+- step 1: convert FP32 weights to FP16 weights of neworks, for faster computation.
+- step 2: compute gradient using FP16 precision. 
+- step 3: convert FP16 gradient to FP32 gradient to maintain numerical stability.
+- step 4: multiplied by learning rate and update weight in FP32 precision.
+
+To summarize:
+- `parameters` and `activations` are stored as FP16, enabling the use of the high throughput tensor core units on these GPUs. During mixed-precision training, both the forward and backward propagation are performed using fp16 weights and activations.
+- To effectively compute and apply the updates at the end of the backward propagation, the mixed-precision `optimizer` keeps an FP32 copy of the parameters as well as an FP32 copy of all `the other optimizer states`.
 Now the mixed precision method now has been the state-of-the-art approach to train LLMs on the current generation of NVIDIA GPUs.
 
 ## Memery Consumption Estimation in Mixed-Precision Training
@@ -108,25 +111,36 @@ During model training, most of the memory is consumed by `model states`, i.e., t
 
 ### Memory Consumption Estimation of Model States
 
-<!--
-- `parameters` and `activations` are stored as fp16, enabling the use of the high throughput tensor core units on these GPUs. During mixed-precision training, both the forward and backward propagation are performed using fp16 weights and activations.
-- To effectively compute and apply the updates at the end of the backward propagation, the mixed-precision `optimizer` keeps an fp32 copy of the parameters as well as an fp32 copy of all `the other optimizer states`.
--->
 
 
-Assume we train a model with $N$ parameters using Adam. This requires to 
-- hold an fp16 copy of the `parameters` and `gradients`, with memory requirements of $2N$ and $2N$ bytes respectively.
-- hold the optimizer states: an fp32 copy of the `parameters`, `momentum` and `variance`, with memory requirements of $4\Uppsi$, $4\Uppsi$, and $4\Uppsi$ bytes, respectively.
+Assume we are training a model with $N$ parameters using the Adam optimizer. This requires:
 
-In total, this results in $2 N + 2N + 3*4N = 16N$ bytes of memory requirement. 
+- **FP16 copies of the parameters and gradients**: Both the parameters and gradients are stored in FP16 format, each requiring $ 2N$ bytes of memory<d-footnote>$N * 16 bit / 8 bit per byte = 2N$.</d-footnote>, for a total of $4N$ bytes.
+  
+- **Optimizer states**: Adam requires FP32 copies of the parameters, momentum, and variance. The memory requirements for these are $4N$ bytes each, resulting in a total of $12N$ bytes.
 
-In inference, only the model parameters consum the memory, which results in $2N$ bytes of memory.
+Thus, the total memory in bytes required for training the model is:
+$
+2N + 2N  + 3 \times 4N  = 16N 
+$
 
-To `train` a model such as Mistral-7B-FP16 with 7 Billion parameters, this leads to a memory requirement of at least 24 GB: $7 * 1,000 * 1,000 * 1,000 / 1024 / 1024 / 1024 * 16 \approx 112G$ <d-footnote>For estimation purposes, we simple make $1,000 * 1,000 * 1,000 / 1024 / 1024 / 1024 = 1$.</d-footnote>.
+During inference, only the model parameters are stored, consuming $2N$ bytes of memory (since only the FP16 parameters are needed).
+
+For example, to train a model like **Mistral-7B-FP16** with 7 billion parameters ($ N = 7 \times 10^9 $ bit), the memory requirement would be at least:
+$
+7 \times 10^9  \times 16 / (1024^3(bytes per GB)}) \approx 112 GB.
+$
+
+For inference, the memory requirement is lower, using only:
+$
+7 \times 10^9  \times 2 / (1024^3(bytes per GB)}) \approx 14 GB.
+$
+
+
 
 To `infer` such a model, it requires a memory of $14$ GB: $7 * 1,000 * 1,000 * 1,000 / 1024 / 1024 / 1024 * 2 \approx 14G$.
 
-
+<d-footnote>$N * 1,000 * 1,000 * 1,000 / 1024 / 1024 / 1024 \approx 1$.</d-footnote>.
 
 ## Reference 
 
