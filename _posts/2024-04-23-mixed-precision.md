@@ -129,18 +129,13 @@ During inference, only the model parameters are stored, consuming $2N$ bytes of 
 For example, to train a model like **Mistral-7B-FP16** with 7 billion parameters ($ N = 7 \times 10^9 $ bit), the memory requirement would be at least:
 $
 7 \times 10^9  \times 16 / (1024^3(bytes per GB)}) \approx 112 GB.
-$
+$ <d-footnote>We simply assume $N * 1,000 * 1,000 * 1,000 / 1024 / 1024 / 1024 \approx 1$.</d-footnote>.
 
 For inference, the memory requirement is lower, using only:
 $
 7 \times 10^9  \times 2 / (1024^3(bytes per GB)}) \approx 14 GB.
 $
 
-
-
-To `infer` such a model, it requires a memory of $14$ GB: $7 * 1,000 * 1,000 * 1,000 / 1024 / 1024 / 1024 * 2 \approx 14G$.
-
-<d-footnote>$N * 1,000 * 1,000 * 1,000 / 1024 / 1024 / 1024 \approx 1$.</d-footnote>.
 
 ## Reference 
 
